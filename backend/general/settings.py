@@ -25,7 +25,7 @@ SECRET_KEY = 'jve+71cooc==d_m)jj$3=t(@2&v*yd2dog^xn=k8xvvw5%az@d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 # Application definition
 
@@ -42,14 +42,14 @@ INSTALLED_APPS = [
 
     #myapps
     'autenticacao',
-    ##autenticacao##
     #allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     #'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
-    'rest_auth.registration',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
 
     
 ]
@@ -88,6 +88,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'general.wsgi.application'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'dj_rest_auth.utils.JWTCookieAuthentication',
+    )
+}
 
 
 AUTHENTICATION_BACKENDS = (
@@ -139,11 +145,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-SITE_ID = 1
+SITE_ID = 0
 
 LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Brazil/East'
 
 USE_I18N = True
 
@@ -165,7 +171,7 @@ MEDIA_URL = '/media/'
 #all-auth registraion settings
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "optional" #or "mandatory"
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400 # 1 day. This does ot prevent admin login frombeing brut forced.
 ACCOUNT_LOGOUT_REDIRECT_URL ='/accounts/login/' #or any other page
@@ -206,7 +212,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 SOCIALACCOUNT_QUERY_EMAIL=ACCOUNT_EMAIL_REQUIRED
 SOCIALACCOUNT_EMAIL_REQUIRED=ACCOUNT_EMAIL_REQUIRED
-SOCIALACCOUNT_STORE_TOKENS=False
+SOCIALACCOUNT_STORE_TOKENS=True
 
 #email settings
 #configurar o email para STMP, comentar EMAIL_BACKEND e descomentar o restante colocando os valores corretos
@@ -219,3 +225,5 @@ EMAIL_HOST_PASSWORD =
 EMAIL_USE_TLS
 EMAIL_USE_SSL
 '''
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'auth'
