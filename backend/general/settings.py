@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'defender',
 
+    #pagamento
+    'pagseguro'
     
 ]
 
@@ -229,3 +231,12 @@ EMAIL_USE_SSL
 '''
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'auth'
+
+#django-defener -- log and block unauthorized authentications
+
+
+#django-pagseguro2
+PAGSEGURO_EMAIL = 'fulano@cicrano.com'
+PAGSEGURO_TOKEN = 'token'
+PAGSEGURO_SANDBOX = DEBUG # se o valor for True, as requisições a api serão feitas usando o PagSeguro Sandbox.
+PAGSEGURO_LOG_IN_MODEL = True # se o valor for True, os checkouts e transações vão ser logadas no database.
