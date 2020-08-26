@@ -26,7 +26,7 @@ class PessoaList(generics.ListAPIView):
 
 #update
 class PessoaUpdate(generics.RetrieveUpdateAPIView):
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     queryset = Pessoa.objects.all()
     serializer_class = PessoaSerializer
@@ -35,14 +35,14 @@ class PessoaUpdate(generics.RetrieveUpdateAPIView):
 ######CRUD Acesso#########
 #create
 class AcessoCreate(generics.CreateAPIView):
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     
     queryset = Acesso.objects.all()
     serializer_class = AcessoSerializer
 
 #list
 class AcessoList(generics.ListAPIView):
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     
     queryset = Acesso.objects.all()
     serializer_class = AcessoSerializer
