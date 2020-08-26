@@ -12,14 +12,14 @@ from rest_framework.views import APIView
 ######CRUD Pessoa#########
 #create
 class PessoaCreate(generics.CreateAPIView):
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     queryset = Pessoa.objects.all()
     serializer_class = PessoaSerializer
 
 #list
 class PessoaList(generics.ListAPIView):
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     queryset = Pessoa.objects.all()
     serializer_class = PessoaSerializer
