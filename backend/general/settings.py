@@ -174,13 +174,14 @@ MEDIA_URL = '/media/'
 
 
 #all-auth registraion settings
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "optional" #or "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "none" #or "mandatory"
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400 # 1 day. This does ot prevent admin login frombeing brut forced.
-ACCOUNT_LOGOUT_REDIRECT_URL ='/accounts/login/' #or any other page
-LOGIN_REDIRECT_URL = '/accounts/email/' # redirects to profile page by default
+ACCOUNT_LOGOUT_REDIRECT_URL ='/' #or any other page
+LOGIN_REDIRECT_URL = '/' # redirects to profile page by default
 ACCOUNT_PRESERVE_USERNAME_CASING = False # reduces the delays in iexact lookups
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_UNIQUE_EMAIL=True
@@ -188,7 +189,7 @@ ACCOUNT_USERNAME_MIN_LENGTH = 5
 ACCOUNT_USERNAME_REQUIRED =True
 ACCOUNT_USERNAME_VALIDATORS = None
 
-
+'''
 #Social Account Settings
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
@@ -217,7 +218,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 SOCIALACCOUNT_QUERY_EMAIL=ACCOUNT_EMAIL_REQUIRED
 SOCIALACCOUNT_EMAIL_REQUIRED=ACCOUNT_EMAIL_REQUIRED
-SOCIALACCOUNT_STORE_TOKENS=True
+SOCIALACCOUNT_STORE_TOKENS=True'''
 
 #email settings
 #configurar o email para STMP, comentar EMAIL_BACKEND e descomentar o restante colocando os valores corretos
@@ -234,10 +235,4 @@ REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'auth'
 
 #django-defener -- log and block unauthorized authentications
-
-
-#django-pagseguro2
-PAGSEGURO_EMAIL = 'fulano@cicrano.com'
-PAGSEGURO_TOKEN = 'token'
-PAGSEGURO_SANDBOX = DEBUG # se o valor for True, as requisições a api serão feitas usando o PagSeguro Sandbox.
-PAGSEGURO_LOG_IN_MODEL = True # se o valor for True, os checkouts e transações vão ser logadas no database.
+APPEND_SLASH = False

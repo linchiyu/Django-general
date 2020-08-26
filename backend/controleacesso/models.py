@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class Pessoa(models.Model):
     class Meta:
-        db_table = 'empresa'
+        db_table = 'pessoa'
 
     nome = models.CharField(max_length=40)
     codigo = models.CharField(max_length=20, blank=True, null=True)
@@ -16,9 +16,9 @@ class Pessoa(models.Model):
 
 class Acesso(models.Model):
     class Meta:
-        db_table = 'camera'
+        db_table = 'acesso'
 
-    data = models.DateTimeField(auto_now_add=True)
+    data = models.DateTimeField()
     tipoAcesso = models.CharField(max_length=10) #0 = entrada 1 = saida
     fkpessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT)
 
