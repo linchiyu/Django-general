@@ -10,6 +10,6 @@ urlpatterns = [
     #path('accounts/', include('allauth.urls')),
     path(pre_link+'/', include('dj_rest_auth.urls')),
     path(pre_link+'/registration/', include('dj_rest_auth.registration.urls')),
-    path(pre_link+'/facebook/', FacebookLogin.as_view(), name='fb_login'),
+    #path(pre_link+'/facebook/', FacebookLogin.as_view(), name='fb_login'),
     #re_path('rest-auth/registration/account-confirm-email/(?P<key>.+)/', ConfirmEmailView.as_view(), name='account_confirm_email')
 ]

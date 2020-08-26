@@ -37,24 +37,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    #'defender',
     'rest_framework',
     'rest_framework.authtoken',
 
     #myapps
-    'autenticacao',
-    'controleacesso',
+    #'autenticacao',
     #allauth
     'allauth',
     'allauth.account',
-    #'allauth.socialaccount',
+    'allauth.socialaccount',
     #'allauth.socialaccount.providers.google',
-    #'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.facebook',
     'dj_rest_auth',
     'dj_rest_auth.registration',
 
     #pagamento
-    #'pagseguro'
+    'pagseguro'
     
 ]
 
@@ -66,10 +64,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'defender.middleware.FailedLoginMiddleware',
 ]
 
-ROOT_URLCONF = 'general.urls'
+ROOT_URLCONF = 'tutorial.urls'
 
 TEMPLATES = [
     {
@@ -92,7 +89,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'general.wsgi.application'
+WSGI_APPLICATION = 'tutorial.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -173,71 +170,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-#all-auth registraion settings
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "optional" #or "mandatory"
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400 # 1 day. This does ot prevent admin login frombeing brut forced.
-ACCOUNT_LOGOUT_REDIRECT_URL ='/accounts/login/' #or any other page
-LOGIN_REDIRECT_URL = '/accounts/email/' # redirects to profile page by default
-ACCOUNT_PRESERVE_USERNAME_CASING = False # reduces the delays in iexact lookups
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
-ACCOUNT_UNIQUE_EMAIL=True
-ACCOUNT_USERNAME_MIN_LENGTH = 5
-ACCOUNT_USERNAME_REQUIRED =True
-ACCOUNT_USERNAME_VALIDATORS = None
-
-
-#Social Account Settings
-SOCIALACCOUNT_PROVIDERS = {
-    'facebook': {
-        'METHOD': 'oauth2',
-        'SCOPE': ['email', 'public_profile', 'user_friends'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'INIT_PARAMS': {'cookie': True},
-        'FIELDS': [
-            'id',
-            'email',
-            'name',
-            'first_name',
-            'last_name',
-            'verified',
-            'locale',
-            'timezone',
-            'link',
-            'gender',
-            'updated_time',
-        ],
-        'EXCHANGE_TOKEN': True,
-        #'LOCALE_FUNC': 'path.to.callable',
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v2.12',
-    },
-}
-SOCIALACCOUNT_QUERY_EMAIL=ACCOUNT_EMAIL_REQUIRED
-SOCIALACCOUNT_EMAIL_REQUIRED=ACCOUNT_EMAIL_REQUIRED
-SOCIALACCOUNT_STORE_TOKENS=True
-
-#email settings
-#configurar o email para STMP, comentar EMAIL_BACKEND e descomentar o restante colocando os valores corretos
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-'''EMAIL_FILE_PATH = 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 
-EMAIL_HOST_USER = 
-EMAIL_HOST_PASSWORD = 
-EMAIL_USE_TLS
-EMAIL_USE_SSL
-'''
-REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'auth'
-
-#django-defener -- log and block unauthorized authentications
-
-
-#django-pagseguro2
-PAGSEGURO_EMAIL = 'fulano@cicrano.com'
-PAGSEGURO_TOKEN = 'token'
-PAGSEGURO_SANDBOX = DEBUG # se o valor for True, as requisições a api serão feitas usando o PagSeguro Sandbox.
-PAGSEGURO_LOG_IN_MODEL = True # se o valor for True, os checkouts e transações vão ser logadas no database.

@@ -1,4 +1,11 @@
 asgiref==3.2.7
-Django==3.0.7
+Django==3.1
 pytz==2020.1
 sqlparse==0.3.1
+djangorestframework
+dj-rest-auth
+django-allauth
+djangorestframework-simplejwt
+markdown
+django-filter
+django-pagseguro2
