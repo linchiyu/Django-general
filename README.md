@@ -7,8 +7,25 @@ The modules will be separeted so you can get the module you need and just paste 
 
 - [x] login
 - [ ] payments
-- [ ] sample api
+- [x] sample api
 - [ ] chat
+
+#SETUP
+- Intale os requisitos em requirements.txt
+```sh
+pip install -r requirements.txt
+```
+- Crie o banco de dados
+
+```sh
+python manage.py makemigrations
+python manage.py migrate
+```
+
+- Crie um superuser
+```sh
+python manage.py createsuperuser
+```
 
 
 # Insomnia
