@@ -12,6 +12,7 @@ The modules will be separeted so you can get the module you need and just paste 
 
 <h2>SETUP</h2>
 - Intale os requisitos em requirements.txt
+
 ```sh
 pip install -r requirements.txt
 ```
