@@ -174,10 +174,10 @@ MEDIA_URL = '/media/'
 
 
 #all-auth registraion settings
-ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_AUTHENTICATION_METHOD = "username" #"username", "email" or "username_email"
 ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
-ACCOUNT_EMAIL_VERIFICATION = "none" #or "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "none" #"none", optional" or "mandatory"
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400 # 1 day. This does ot prevent admin login frombeing brut forced.
 ACCOUNT_LOGOUT_REDIRECT_URL ='/' #or any other page
