@@ -8,6 +8,7 @@ class Pessoa(models.Model):
     nome = models.CharField(max_length=40)
     codigo = models.CharField(max_length=20, blank=True, null=True)
     foto = models.ImageField(upload_to='rosto')
+    face_encoded = models.CharField(max_length=3500, blank=True, null=True)
     bloqueado = models.BooleanField(default=False)
 
     def __str__(self):

@@ -9,6 +9,12 @@ class PessoaSerializer(serializers.ModelSerializer):
         model = Pessoa
         fields = '__all__'
 
+class PessoaFaceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Pessoa
+        fields = ('id', 'nome', 'face_encoded')
 
 class AcessoSerializer(serializers.ModelSerializer):
 

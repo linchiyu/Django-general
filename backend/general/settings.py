@@ -235,4 +235,4 @@ REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'auth'
 
 #django-defener -- log and block unauthorized authentications
-APPEND_SLASH = False
+#APPEND_SLASH = False
