@@ -24,4 +24,4 @@ class Acesso(models.Model):
     fkpessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT)
 
     def __str__(self):
-        return self.data
+        return str(self.data)

@@ -14,7 +14,7 @@ class PessoaFaceSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Pessoa
-        fields = ('id', 'nome', 'face_encoded')
+        fields = ('id', 'nome', 'codigo', 'face_encoded')
 
 class AcessoSerializer(serializers.ModelSerializer):
 
