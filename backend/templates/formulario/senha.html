@@ -1,0 +1,26 @@
+{% extends "lista_link.html" %}	
+<!DOCTYPE html>
+<html>
+<head>
+	<title> </title>
+</head>
+{% block content %}
+<body>
+	<form method="POST">
+		{% csrf_token %}
+		<label>Digite a nova senha</label><br>
+		<input type="password" name="password"><br><br>
+		<label>Confirme ela novamente</label><br>
+		<input type="password" name="password2"><br>
+		{% for message in messages %}
+		<br>
+		<div class="alert alert-danger">
+  			{{message}}
+		</div>
+		{% endfor %}
+		<br>
+		<button type="submit">Salvar</button><br><br>
+	</form>
+</body>
+{% endblock %}
+</html> 
