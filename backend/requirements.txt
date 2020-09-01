@@ -9,3 +9,4 @@ djangorestframework-simplejwt
 markdown
 django-filter
 django-pagseguro2
+Pillow
