@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> </title>
+</head>
+<body>
+	<h1>ArticFox<h1>
+	<form method="POST">
+		{% csrf_token %}
+		<label>Usuario</label>
+		<input type="text" name="usuario"><br><br>
+		<label>Senha</label>
+		<input type="password" name="senha"><br>
+		{% for message in messages %}
+		<br>
+		<div class="alert alert-danger">
+  			{{message}}
+		</div>
+		{% endfor %}
+		<button type="submit">Fazer login</button><br><br>
+	</form>
+</body>
+</html> 

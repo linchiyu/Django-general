@@ -1,0 +1,44 @@
+{% extends "lista_link.html" %}	
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+{% block content %}
+<body>
+	<form method="POST">
+		{% csrf_token %}
+		<label>Data inicial</label>
+		<input type="date" name="dataI"></input >
+		<br>
+		<label>Data final</label>
+		<input type="date" name="dataF">
+		<br>
+		<label>Nome</label>
+		<input type="text" name="search">
+		<br><br>
+		<button type="submit">Pesquisar</button><br><br>
+		{% for message in messages %}
+		<div class="alert alert-danger">
+  			{{message}}
+		</div>
+		<br>
+		{% endfor %}
+		<table border="1">
+		    <tr>
+		        <td>Nome</td>
+		        <td>Data e Hora</td>
+		        <td>Tipo</td>
+		    </tr>
+		    {% for i in acessos %}
+			    <tr>
+			        <td>{{ i.fkpessoa.nome }}</td>
+			        <td>{{ i.data }}</td>
+			        <td>{{ i.tipoAcesso }}</td>
+			    </tr>
+			{% endfor %}
+		</table>
+	</form>
+</body>
+{% endblock %}
+</html> 

@@ -1,0 +1,32 @@
+{% extends "lista_link.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+{% block content %}
+<body>
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{% for i in pessoa %}	
+			<label>Nome</label>
+			<input type="text" name="name" value="{{i.nome}}" ><br><br>
+			<label>Codigo</label>
+			<input type="text" name="code" value="{{i.codigo}}"><br><br>
+			<label>Imagem</label> 
+			<input  type="file" name="img" ></input ><br><br>
+			<label>Bloquear usuário</label>
+			<input type="checkbox" id="checkbox" name="checkbox" {% if i.bloqueado %} checked{% endif %} ><br><br>
+		{% endfor %}
+		{% for message in messages %}
+		<div class="alert alert-danger">
+  			{{message}}
+		</div>
+		<br>
+		{% endfor %}
+		<input type="hidden" name="id" value="{{ id }}">
+		<button type="submit">Salvar alterações</button><br><br>
+	</form>
+</body>
+{% endblock %}
+</html> 

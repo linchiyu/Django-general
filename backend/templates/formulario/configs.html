@@ -1,0 +1,36 @@
+{% extends "lista_link.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+{% block content %}
+<body>
+	<form method="POST">
+		{% csrf_token %}
+		<label>Configuração 1 </label>
+		<select name="select1">
+			<option value="valor1">Valor 1</option> 
+			<option value="valor2" selected>Valor 2</option>
+			<option value="valor3">Valor 3</option>
+		</select>
+		<br><br>
+		<label>Configuração 2 </label>
+		<select name="select2">
+			<option value="valor1">Valor 1</option> 
+			<option value="valor2" selected>Valor 2</option>
+			<option value="valor3">Valor 3</option>
+		</select>
+		<br><br>
+		<label>Configuração 3 </label>
+		<select name="select3">
+			<option value="valor1">Valor 1</option> 
+			<option value="valor2" selected>Valor 2</option>
+			<option value="valor3">Valor 3</option>
+		</select>
+		<br><br>
+		<button type="submit">Salvar</button><br><br>
+	</form>
+</body>
+{% endblock %}
+</html> 
