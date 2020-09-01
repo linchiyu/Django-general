@@ -12,7 +12,8 @@ class Pessoa(models.Model):
         db_table = 'pessoa'
     nome = models.CharField(max_length=40)
     codigo = models.CharField(max_length=20, blank=True, null=True)
-    foto = models.ImageField()
+    foto = models.ImageField(upload_to='rosto')
+    face_encoded = models.CharField(max_length=3500, blank=True, null=True)
     bloqueado = models.BooleanField(default=False)
 
     objects = PessoaManager()
@@ -28,4 +29,4 @@ class Acesso(models.Model):
     fkpessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT)
 
     def __str__(self):
-        return self.data
+        return str(self.data)
