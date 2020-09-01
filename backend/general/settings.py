@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     #myapps
     'autenticacao',
     'controleacesso',
+    'formulario',
     #allauth
     'allauth',
     'allauth.account',
