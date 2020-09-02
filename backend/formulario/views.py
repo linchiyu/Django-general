@@ -11,6 +11,7 @@ from rest_framework import serializers
 import datetime
 from datetime import timedelta
 from PIL import Image
+from django.contrib.auth import password_validation
 
 # Create your views here.
 
@@ -40,9 +41,11 @@ def cad_face(request):
 			if data['nome'] != "" and data['check'] == True:
 				pes = Pessoa.objects.create_Pessoa(data['nome'], "" ,uploaded_file,False)
 				pes.save()
+				messages.error(request, "Usuário cadastrado com sucesso!")
 			elif data['nome'] != "" and data['check'] == False and data['codigo'] != "":
 				pes = Pessoa.objects.create_Pessoa(data['nome'], data['codigo'] ,uploaded_file,False)
 				pes.save()
+				messages.error(request, "Usuário cadastrado com sucesso!")
 			else:
 				messages.error(request, "Algum campo não preenchido!")
 			return render(request, 'formulario/cadastro_face.html')
@@ -139,14 +142,19 @@ def senha(request,):
 	if request.method == 'POST':
 		data['senha1'] = request.POST.get("password")
 		data['senha2'] = request.POST.get("password2")
-		if data['senha1']  == data['senha2']:
-			request.user.set_password(data['senha1'])
-			user.save()
-			user = authenticate(username=user, password=data['senha1'])
-			auth_login(request,user)
-			messages.error(request, "Senha alterada com sucesso!")
-		else:
-			messages.error(request, "As senhas não são iguais!")
+		try:
+			validate = password_validation.validate_password(data['senha1'])
+			if data['senha1']  == data['senha2']:
+				request.user.set_password(data['senha1'])
+				user.save()
+				user = authenticate(username=user, password=data['senha1'])
+				auth_login(request,user)
+				messages.error(request, "Senha alterada com sucesso!")
+			else:
+				messages.error(request, "As senhas inseridas não são iguais!")
+		except Exception as e:
+			for i in e:
+				messages.error(request,str(i))
 		return HttpResponseRedirect('/senha')
 	return render(request, 'formulario/senha.html')
 
