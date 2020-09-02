@@ -1,4 +1,4 @@
-import face_recognition
+#import face_recognition
 import numpy as np
 import json
 from json import JSONEncoder
@@ -14,7 +14,8 @@ def encodeFace(path):
     #transforma imagem do PATH para um json com {"face": [128-D face points array]}
     try:
         image = face_recognition.load_image_file(path)
-        face_encoding = face_recognition.face_encodings(image)[0]
+        #face_encoding = face_recognition.face_encodings(image)[0]
+        face_encoding = ''
 
         # Serialization
         numpyData = {"face": face_encoding}
