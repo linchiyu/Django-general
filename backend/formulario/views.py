@@ -23,7 +23,7 @@ def login(request):
 		user = authenticate(username=data['username'], password=data['password'])
 		if user is not None:
 			auth_login(request,user)
-			return HttpResponseRedirect('/Cadastrar')
+			return HttpResponseRedirect('/cadastrar')
 		messages.error(request, "Usuário ou senha invalido!")
 	return render(request, 'formulario/login.html')
 
@@ -147,7 +147,7 @@ def senha(request,):
 			messages.error(request, "Senha alterada com sucesso!")
 		else:
 			messages.error(request, "As senhas não são iguais!")
-		return HttpResponseRedirect('/Senha')
+		return HttpResponseRedirect('/senha')
 	return render(request, 'formulario/senha.html')
 
 @login_required(login_url='/')
@@ -170,7 +170,7 @@ def alterar(request,idp):
 			im = Image.open(uploaded_file)
 			im.save("media/"+str(uploaded_file))
 			pes = Pessoa.objects.filter(id=idp).update(nome=data['nome'],codigo=data['codigo'],foto=uploaded_file,bloqueado=data['bloqueado'])
-		return HttpResponseRedirect('/UsuáriosCadastrados')
+		return HttpResponseRedirect('/usuarioscadastrados')
 		#return HttpResponseRedirect("UsuáriosCadastrados")
 	return render(request, 'formulario/Alterar.html',{'pessoa' : pessoa})
 

@@ -5,16 +5,6 @@ from django.conf.urls.static import static
 #from . import views
 #from .views import FacebookLogin
 #from allauth.account.views import ConfirmEmailView
-from django.contrib import admin
-from django.urls import path
-from formulario.views import cad_face
-from formulario.views import login
-from formulario.views import lista_cad
-from formulario.views import lista_ace
-from formulario.views import config
-from formulario.views import sobre
-from formulario.views import senha
-from formulario.views import alterar
 
 
 pre_link = 'auth'
