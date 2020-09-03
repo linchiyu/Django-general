@@ -9,6 +9,7 @@ from .views import config
 from .views import sobre
 from .views import senha
 from .views import alterar
+from .views import logout
 
 urlpatterns = [
     path(r'', login, name = 'formulario_login'),
@@ -18,6 +19,7 @@ urlpatterns = [
     path('configuracao', config, name = 'formulario_config'),
     path('sobre', sobre, name = 'formulario_sobre'),
     path('senha', senha, name = 'formulario_senha'),
+    path('logout', logout, name = 'formulario_logout'),
     path('alterar/<int:idp>', alterar, name = 'formulario_alterar'),
 ]
 

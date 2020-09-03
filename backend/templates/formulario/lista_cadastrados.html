@@ -16,7 +16,6 @@
 				<button class="btn btn-secondary" name="pesquisar" type="submit">Pesquisar</button><br><br>
 			</div>
 		</div>
-
 	</div>
 	<br>
 	{% for message in messages %}
@@ -31,6 +30,7 @@
 		<td><strong>Nome</strong></td>
 		<td><strong>Codigo</strong></td>
 		<td><strong>Foto</strong></td>
+		<td>Acesso</td>
 	</tr>
 	{% for i in pessoas %}
 	<tr>
@@ -40,9 +40,15 @@
 			<td>{{ i.codigo }}</td>
 			<td><img src="media/{{ i.foto }}" alt="My image" width=160 height=90 name="img"></td>
 			<input type="hidden" name="id" value="{{ i.id }}">
+			<td>{% if i.bloqueado %} Bloqueado {% else %} Livre {% endif %}</td>
 			<td><button class="btn btn-info" name="editar" type="submit">Alterar</button></td>
 		</form>
 	</tr>
 	{% endfor %}
 </table>
+<form method="POST">
+	{% csrf_token %}
+	<input type="hidden" name="pessoas" value="{{ pessoas }}">
+	<button name="export"type="submit">Exportar CSV</button>
+</form>
 {% endblock %}
