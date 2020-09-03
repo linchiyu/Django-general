@@ -2,6 +2,10 @@
     border-color: #29396a !important;
 }
 
+label {
+    font-size: 130%;
+}
+
 body,
 html,
 .sidebar_container {
@@ -16,6 +20,6 @@ html,
 h1,
 h2,
 h3 {
-    color: #29396a ;
+    color: #29396a;
 
 }
