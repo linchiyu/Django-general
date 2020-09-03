@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate 
 from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
@@ -12,6 +13,8 @@ import datetime
 from datetime import timedelta
 from PIL import Image
 from django.contrib.auth import password_validation
+import csv
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -31,6 +34,7 @@ def login(request):
 @login_required(login_url='/')
 def cad_face(request):
 	data = {}
+	print("oi")
 	if request.method == 'POST':
 		if 'img' in request.FILES:
 			uploaded_file = request.FILES['img']
@@ -57,6 +61,13 @@ def cad_face(request):
 def lista_cad(request):
 	data = {}
 	data['id'] = request.POST.get("id")
+
+	response = HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+	writer = csv.writer(response)
+	writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+	print("aa")
+
 	if data['id']:
 		return redirect("formulario_alterar", data['id'])
 		#return render(request, 'formulario/alterar.html', {'id' : data['id']})
@@ -181,5 +192,10 @@ def alterar(request,idp):
 		return HttpResponseRedirect('/usuarioscadastrados')
 		#return HttpResponseRedirect("UsuáriosCadastrados")
 	return render(request, 'formulario/Alterar.html',{'pessoa' : pessoa})
+
+@csrf_protect
+def logout(request):
+	auth_logout(request)
+	return HttpResponseRedirect('/')
 
 
