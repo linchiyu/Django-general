@@ -67,7 +67,7 @@ def lista_cad(request):
 		#return render(request, 'formulario/alterar.html', {'id' : data['id']})
 	elif data['pessoas']:
 		response = HttpResponse(content_type='text/csv')
-		response['Content-Disposition'] = 'attachment; filename="Usuários.csv"'
+		response['Content-Disposition'] = 'attachment; filename="usuarios.csv"'
 		aux = []
 		pessoasID =  data['pessoas'].split(" ")
 		for i in range(len(pessoasID) +1):
@@ -102,7 +102,7 @@ def lista_ace(request):
 	data['acessos'] = request.POST.get("acessos")
 	if data['acessos']:
 		response = HttpResponse(content_type='text/csv')
-		response['Content-Disposition'] = 'attachment; filename="Entradas.csv"'
+		response['Content-Disposition'] = 'attachment; filename="entradas.csv"'
 		aux = []
 		acessosID =  data['acessos'].split(" ")
 		for i in range(len(acessosID) +1):
