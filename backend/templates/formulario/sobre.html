@@ -1,10 +1,7 @@
 {% extends "lista_link.html" %}	
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-{% block content %}
+{% block page_title %}Sobre
+{% endblock page_title %}
+{% block sidebar_content %}
 <body>
 	<form method="POST">
 		{% csrf_token %}

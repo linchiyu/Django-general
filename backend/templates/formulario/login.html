@@ -1,23 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title> </title>
-</head>
-<body>
-	<h1>ArticFox<h1>
-	<form method="POST">
-		{% csrf_token %}
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}Login
+{% endblock page_title %}
+
+{% block content %}
+<br>
+<br>
+<div class="container-fluid h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <form method="post" class="col-12" style="max-width:500px;">
+	  <img src="{% static 'img/login_logo.jpg' %}" class="img-fluid" alt="">
+	  <h2>Login</h2>
+
+      {% csrf_token %}
+	  <div class="form-group">
 		<label>Usuario</label>
-		<input type="text" name="usuario"><br><br>
+		<input type="text" name="usuario" class="form-control"><br><br>
 		<label>Senha</label>
-		<input type="password" name="senha"><br>
+		<input type="password" name="senha"  class="form-control"><br>
+		<div style="margin-top:-15px;">
+		</div>
+	  </div>
 		{% for message in messages %}
 		<br>
 		<div class="alert alert-danger">
   			{{message}}
 		</div>
 		{% endfor %}
-		<button type="submit">Fazer login</button><br><br>
-	</form>
-</body>
-</html> 
+		<button type="submit" class="btn btn-primary">Fazer login</button><br><br>
+    </form>   
+  </div>
+</div>
+{% endblock content %}

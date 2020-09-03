@@ -1,18 +1,42 @@
-<head>
-	<h1>ArticFox<h1>
-</head>
-<body>
-	<a href="/logout">Logout</a>
-	<nav id="menu">
-		<ul>
-			<li><a href="/cadastrar">Cadastrar</a></li>
-			<li><a href="/usuarioscadastrados">Usuários cadastrados</a></li>
-			<li><a href="/acessos">Lista de Acessos</a></li>
-			<li hidden='True'><a href="/configuracao">Alterar configuração do totem</a></li>
-			<li><a href="/senha">Alterar senha</a></li>
-			<li><a href="/sobre">Sobre</a></li>
-		</ul>
-	</nav>
-</body>
+{% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-{% endblock %}
+<div class="d-flex" id="wrapper">
+	<div class="bg-light border-right" id="sidebar-wrapper">
+		<div class="sidebar-heading"><h1>ArticFox</h1> </div>
+		<div class="list-group list-group-flush">
+			<a class="list-group-item list-group-item-action bg-light" href="/cadastrar">Cadastrar</a>
+			<a class="list-group-item list-group-item-action bg-light" href="/usuarioscadastrados">Usuários
+				cadastrados</a>
+			<a class="list-group-item list-group-item-action bg-light" href="/acessos">Lista de Acessos</a>
+			<a class="list-group-item list-group-item-action bg-light" href="/configuracao">Alterar configuração do
+				totem</a>
+			<a class="list-group-item list-group-item-action bg-light" href="/senha">Alterar senha</a>
+			<a class="list-group-item list-group-item-action bg-light" href="/sobre">Sobre</a>
+      <br>
+      <a class="list-group-item list-group-item-action bg-light" href="/logout">Logout</a>
+		</div>
+	</div>
+
+	<div id="page-content-wrapper">
+			<button class="" id="menu-toggle"><img src="{% static 'img/small-icon.png' %}"
+					class="" width="32px"
+					alt=""></button>
+		
+		<div class="sidebar_form_container">
+			{% block sidebar_content %}
+		{% endblock sidebar_content %}
+		</div>
+
+		
+	</div>
+</div>
+
+<script>
+	$("#menu-toggle").click(function (e) {
+		e.preventDefault();
+		$("#wrapper").toggleClass("toggled");
+	});
+</script>
+{% endblock content %}

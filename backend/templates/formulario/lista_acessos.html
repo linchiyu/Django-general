@@ -1,49 +1,57 @@
-{% extends "lista_link.html" %}	
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-{% block content %}
-<body>
-	<form method="POST">
-		{% csrf_token %}
-		<label>Data inicial</label>
-		<input type="date" name="dataI"></input >
-		<br>
-		<label>Data final</label>
-		<input type="date" name="dataF">
-		<br>
-		<label>Nome</label>
-		<input type="text" name="search">
-		<br><br>
-		<button type="submit">Pesquisar</button><br><br>
-		{% for message in messages %}
-		<div class="alert alert-danger">
-  			{{message}}
+{% extends "lista_link.html" %}
+{% block page_title %}Lista de Acessos
+{% endblock page_title %}
+{% block sidebar_content %}
+<h2> Lista de Acessos</h2>
+<form method="POST">
+	{% csrf_token %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-6">
+				<label>Data inicial</label>
+				<input class="form-control" type="date" name="dataI"></input>
+			</div>
+			<div class="col-6">
+				<label>Data final</label>
+				<input class="form-control" type="date" name="dataF">
+			</div>
 		</div>
 		<br>
-		{% endfor %}
-		<table border="1">
-		    <tr>
-		        <td>Nome</td>
-		        <td>Data e Hora</td>
-		        <td>Tipo</td>
-		    </tr>
-		    {% for i in acessos %}
-			    <tr>
-			        <td>{{ i.fkpessoa.nome }}</td>
-			        <td>{{ i.data }}</td>
-			        <td>{{ i.tipoAcesso }}</td>
-			    </tr>
-			{% endfor %}
-		</table>
+		<label>Nome</label>
+		<div class="row">
+			<div class="col-8">
+				<input class="form-control" type="text" name="search">
+			</div>
+			<div class="col-3" style="margin-left:1rem;">
+				<button class="btn btn-secondary" name="pesquisar" type="submit">Pesquisar</button><br><br>
+			</div>
+		</div>
+	</div>
+</form>
+{% for message in messages %}
+<div class="alert alert-danger">
+	{{message}}
+</div>
+<br>
+{% endfor %}
+<table class="table">
+	<tr>
+		<td><strong>Nome</strong></td>
+		<td><strong>Data e Hora</strong></td>
+		<td><strong>Tipo</strong></td>
+	</tr>
+	{% for i in acessos %}
+	<tr>
+		<td>{{ i.fkpessoa.nome }}</td>
+		<td>{{ i.data }}</td>
+		<td>{{ i.tipoAcesso }}</td>
+	</tr>
+	{% endfor %}
+</table>
 	</form>
 	<form method="POST">
 			{% csrf_token %}
 			<input type="hidden" name="acessos" value="{{ acessos }}">
 			<button name="export"type="submit">Exportar CSV</button>
 	</form>
-</body>
 {% endblock %}
-</html> 

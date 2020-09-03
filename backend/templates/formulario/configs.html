@@ -1,11 +1,7 @@
 {% extends "lista_link.html" %}
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-{% block content %}
-<body>
+
+{% block sidebar_content %}
+	<h2>Configuracoes</h2>
 	<form method="POST">
 		{% csrf_token %}
 		<label>Configuração 1 </label>
@@ -31,6 +27,4 @@
 		<br><br>
 		<button type="submit">Salvar</button><br><br>
 	</form>
-</body>
 {% endblock %}
-</html> 

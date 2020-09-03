@@ -1,11 +1,8 @@
 {% extends "lista_link.html" %}
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-{% block content %}
-<body>
+{% block page_title %}Alterar Senha
+{% endblock page_title %}
+{% block sidebar_content %}
+	<h2> Alterar Usuario </h2>
 	<form method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		{% for i in pessoa %}	
@@ -27,6 +24,4 @@
 		<input type="hidden" name="id" value="{{ id }}">
 		<button type="submit">Salvar alterações</button><br><br>
 	</form>
-</body>
 {% endblock %}
-</html> 
