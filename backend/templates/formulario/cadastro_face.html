@@ -1,39 +1,36 @@
 {% extends "lista_link.html" %}
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-{% block content %}
-<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
-<body>
-	<form method="POST" enctype="multipart/form-data">
-		{% csrf_token %}
+{% block page_title %}Cadastrar Usuario
+{% endblock page_title %}
+{% block sidebar_content %}
+
+<h2>Cadastrar Usuário</h2>
+<form method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	<div class="form-group">
 		<label>Nome</label>
-		<input type="text" name="name"><br><br>
-		<label>Gerar código automatico</label>
-		<input type="checkbox" id="checkbox" name="scales" checked><br><br>
-		<label>Codigo</label>
-		<input type="text" name="code" id="code" disabled><br><br>
-		<label>Imagem</label> 
-		<input  type="file" name="img"></input ><br><br>
-		{% for message in messages %}
-		<div class="alert alert-danger">
-  			{{message}}
-		</div>
-		<br>
-		{% endfor %}
-		<script>
-		    $("#checkbox").change(function() {
-		  		if(this.checked) {
-            		document.getElementById("code").disabled = true;
-       			}else{
-       				document.getElementById("code").disabled = false;
-       			}
-			});
-		</script>
-		<button type="submit">Enviar</button><br><br>
-	</form>
-</body>
-{% endblock %}
-</html> 
+		<input class="form-control" type="text" name="name"><br><br>
+	</div>
+	<label>Gerar código automatico</label>
+	<input type="checkbox" id="checkbox" name="scales" checked><br><br>
+	<label>Codigo</label>
+	<input class="form-control" type="text" name="code" id="code" disabled><br><br>
+	<label>Imagem</label>
+	<input class="" type="file" name="img"><br><br>
+	{% for message in messages %}
+	<div class="alert alert-danger">
+		{{message}}
+	</div>
+	<br>
+	{% endfor %}
+	<script>
+		$("#checkbox").change(function () {
+			if (this.checked) {
+				document.getElementById("code").disabled = true;
+			} else {
+				document.getElementById("code").disabled = false;
+			}
+		});
+	</script>
+	<button class="btn btn-primary" type="submit">Enviar</button><br><br>
+</form>
+{% endblock sidebar_content%}

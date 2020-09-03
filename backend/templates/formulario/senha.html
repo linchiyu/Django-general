@@ -1,17 +1,14 @@
 {% extends "lista_link.html" %}	
-<!DOCTYPE html>
-<html>
-<head>
-	<title> </title>
-</head>
-{% block content %}
-<body>
+{% block page_title %}Alterar Senha
+{% endblock page_title %}
+{% block sidebar_content %}
+	<h2>Alterar Senha</h2>
 	<form method="POST">
 		{% csrf_token %}
 		<label>Digite a nova senha</label><br>
-		<input type="password" name="password"><br><br>
+		<input class="form-control" type="password" name="password"><br><br>
 		<label>Confirme ela novamente</label><br>
-		<input type="password" name="password2"><br>
+		<input class="form-control" type="password" name="password2"><br>
 		{% for message in messages %}
 		<br>
 		<div class="alert alert-danger">
@@ -19,8 +16,6 @@
 		</div>
 		{% endfor %}
 		<br>
-		<button type="submit">Salvar</button><br><br>
+		<button class="btn btn-secondary" type="submit">Salvar</button><br><br>
 	</form>
-</body>
 {% endblock %}
-</html> 

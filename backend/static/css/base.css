@@ -1,3 +1,21 @@
 .form-control {
     border-color: #29396a !important;
 }
+
+body,
+html,
+.sidebar_container {
+    height: 100%;
+}
+
+.sidebar_form_container {
+    padding: 2rem;
+    max-width: 600px;
+}
+
+h1,
+h2,
+h3 {
+    color: #29396a ;
+
+}
