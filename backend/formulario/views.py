@@ -110,7 +110,7 @@ def lista_ace(request):
 				aux.append(acessosID[i -1].split(">")[0])
 		acessosID = aux
 		writer = csv.writer(response)
-		writer.writerow(["id","nome","data","tipoAcesso"])
+		writer.writerow(["id","fkpessoa.nome","data","tipoAcesso"])
 		for i in acessosID:
 			acessos = Acesso.objects.select_related('fkpessoa').filter(id=i)
 			writer.writerow([acessos[0].id,acessos[0].fkpessoa.nome,acessos[0].data,acessos[0].tipoAcesso])
