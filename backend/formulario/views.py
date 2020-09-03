@@ -75,6 +75,7 @@ def lista_cad(request):
 				aux.append(pessoasID[i -1].split(">")[0])
 		pessoasID = aux
 		writer = csv.writer(response)
+		writer.writerow(["id","nome","codigo","face_encoded","bloqueado"])
 		for i in pessoasID:
 			pessoas = Pessoa.objects.filter(id=i)
 			writer.writerow([pessoas[0].id,pessoas[0].nome,pessoas[0].codigo,pessoas[0].face_encoded,pessoas[0].bloqueado])
@@ -109,7 +110,7 @@ def lista_ace(request):
 				aux.append(acessosID[i -1].split(">")[0])
 		acessosID = aux
 		writer = csv.writer(response)
-		print(acessosID)
+		writer.writerow(["id","nome","data","tipoAcesso"])
 		for i in acessosID:
 			acessos = Acesso.objects.select_related('fkpessoa').filter(id=i)
 			writer.writerow([acessos[0].id,acessos[0].fkpessoa.nome,acessos[0].data,acessos[0].tipoAcesso])
