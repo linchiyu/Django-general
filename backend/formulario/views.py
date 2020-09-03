@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate 
 from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
@@ -11,6 +12,9 @@ from rest_framework import serializers
 import datetime
 from datetime import timedelta
 from PIL import Image
+from django.contrib.auth import password_validation
+import csv
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -30,6 +34,7 @@ def login(request):
 @login_required(login_url='/')
 def cad_face(request):
 	data = {}
+	print("oi")
 	if request.method == 'POST':
 		if 'img' in request.FILES:
 			uploaded_file = request.FILES['img']
@@ -40,9 +45,11 @@ def cad_face(request):
 			if data['nome'] != "" and data['check'] == True:
 				pes = Pessoa.objects.create_Pessoa(data['nome'], "" ,uploaded_file,False)
 				pes.save()
+				messages.error(request, "Usuário cadastrado com sucesso!")
 			elif data['nome'] != "" and data['check'] == False and data['codigo'] != "":
 				pes = Pessoa.objects.create_Pessoa(data['nome'], data['codigo'] ,uploaded_file,False)
 				pes.save()
+				messages.error(request, "Usuário cadastrado com sucesso!")
 			else:
 				messages.error(request, "Algum campo não preenchido!")
 			return render(request, 'formulario/cadastro_face.html')
@@ -54,9 +61,25 @@ def cad_face(request):
 def lista_cad(request):
 	data = {}
 	data['id'] = request.POST.get("id")
+	data['pessoas'] = request.POST.get("pessoas")
 	if data['id']:
 		return redirect("formulario_alterar", data['id'])
 		#return render(request, 'formulario/alterar.html', {'id' : data['id']})
+	elif data['pessoas']:
+		response = HttpResponse(content_type='text/csv')
+		response['Content-Disposition'] = 'attachment; filename="Usuários.csv"'
+		aux = []
+		pessoasID =  data['pessoas'].split(" ")
+		for i in range(len(pessoasID) +1):
+			if i%2 != 0 and i != 1:
+				aux.append(pessoasID[i -1].split(">")[0])
+		pessoasID = aux
+		writer = csv.writer(response)
+		writer.writerow(["id","nome","codigo","face_encoded","bloqueado"])
+		for i in pessoasID:
+			pessoas = Pessoa.objects.filter(id=i)
+			writer.writerow([pessoas[0].id,pessoas[0].nome,pessoas[0].codigo,pessoas[0].face_encoded,pessoas[0].bloqueado])
+		return response
 	else:
 		if request.method == 'POST':
 			data['pesquisa'] = request.POST.get("search")
@@ -76,34 +99,31 @@ def lista_cad(request):
 def lista_ace(request):
 	data = {}
 	acessos = Acesso.objects.select_related('fkpessoa')
-	if request.method == 'POST':
-		data['pesquisa'] = request.POST.get("search")
-		data['dataIni'] = request.POST.get("dataI")
-		data['dataFim'] = request.POST.get("dataF")
-		if data['dataIni'] == "" and data['dataFim'] == "" and data['pesquisa'] == "":
-			messages.error(request, "Campos da pesquisa não preenchidos!")
-			return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
-		if data['pesquisa'] == "":
-			if data['dataFim'] != "":
-				data['dataFim'] = datetime.datetime.strptime(data['dataFim'], '%Y-%m-%d')
-				data['dataFim'] = data['dataFim'] + timedelta(days=1)
-			else:
-				data['dataFim'] = '8000-12-31'
-			if data['dataIni'] != "":
-				data['dataIni'] = datetime.datetime.strptime(data['dataIni'], '%Y-%m-%d')
-			else:
-				data['dataIni'] = '2000-01-01'
-			acessos = Acesso.objects.select_related('fkpessoa').filter(data__range=[data['dataIni'],data['dataFim']])
-			if len(acessos) == 0:
-				acessos = Acesso.objects.select_related('fkpessoa')
-				messages.error(request, "Nenhum resultado encontrado!")
-			return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
-		else:
-			pessoas = Pessoa.objects.filter(nome=data['pesquisa'])
-			if len(pessoas) == 0:
-				acessos = Acesso.objects.select_related('fkpessoa')
-				messages.error(request, "Nenhum resultado encontrado!")
-			else:
+	data['acessos'] = request.POST.get("acessos")
+	if data['acessos']:
+		response = HttpResponse(content_type='text/csv')
+		response['Content-Disposition'] = 'attachment; filename="Entradas.csv"'
+		aux = []
+		acessosID =  data['acessos'].split(" ")
+		for i in range(len(acessosID) +1):
+			if i%2 != 0 and i != 1:
+				aux.append(acessosID[i -1].split(">")[0])
+		acessosID = aux
+		writer = csv.writer(response)
+		writer.writerow(["id","fkpessoa.nome","data","tipoAcesso"])
+		for i in acessosID:
+			acessos = Acesso.objects.select_related('fkpessoa').filter(id=i)
+			writer.writerow([acessos[0].id,acessos[0].fkpessoa.nome,acessos[0].data,acessos[0].tipoAcesso])
+		return response
+	else:
+		if request.method == 'POST':
+			data['pesquisa'] = request.POST.get("search")
+			data['dataIni'] = request.POST.get("dataI")
+			data['dataFim'] = request.POST.get("dataF")
+			if data['dataIni'] == "" and data['dataFim'] == "" and data['pesquisa'] == "":
+				messages.error(request, "Campos da pesquisa não preenchidos!")
+				return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
+			if data['pesquisa'] == "":
 				if data['dataFim'] != "":
 					data['dataFim'] = datetime.datetime.strptime(data['dataFim'], '%Y-%m-%d')
 					data['dataFim'] = data['dataFim'] + timedelta(days=1)
@@ -113,11 +133,31 @@ def lista_ace(request):
 					data['dataIni'] = datetime.datetime.strptime(data['dataIni'], '%Y-%m-%d')
 				else:
 					data['dataIni'] = '2000-01-01'
-				acessos = Acesso.objects.select_related('fkpessoa').filter(fkpessoa_id=pessoas[0].id).filter(data__range=[data['dataIni'],data['dataFim']])
+				acessos = Acesso.objects.select_related('fkpessoa').filter(data__range=[data['dataIni'],data['dataFim']])
 				if len(acessos) == 0:
 					acessos = Acesso.objects.select_related('fkpessoa')
 					messages.error(request, "Nenhum resultado encontrado!")
 				return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
+			else:
+				pessoas = Pessoa.objects.filter(nome=data['pesquisa'])
+				if len(pessoas) == 0:
+					acessos = Acesso.objects.select_related('fkpessoa')
+					messages.error(request, "Nenhum resultado encontrado!")
+				else:
+					if data['dataFim'] != "":
+						data['dataFim'] = datetime.datetime.strptime(data['dataFim'], '%Y-%m-%d')
+						data['dataFim'] = data['dataFim'] + timedelta(days=1)
+					else:
+						data['dataFim'] = '8000-12-31'
+					if data['dataIni'] != "":
+						data['dataIni'] = datetime.datetime.strptime(data['dataIni'], '%Y-%m-%d')
+					else:
+						data['dataIni'] = '2000-01-01'
+					acessos = Acesso.objects.select_related('fkpessoa').filter(fkpessoa_id=pessoas[0].id).filter(data__range=[data['dataIni'],data['dataFim']])
+					if len(acessos) == 0:
+						acessos = Acesso.objects.select_related('fkpessoa')
+						messages.error(request, "Nenhum resultado encontrado!")
+					return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
 	return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
 
 @login_required(login_url='/')
@@ -139,14 +179,19 @@ def senha(request,):
 	if request.method == 'POST':
 		data['senha1'] = request.POST.get("password")
 		data['senha2'] = request.POST.get("password2")
-		if data['senha1']  == data['senha2']:
-			request.user.set_password(data['senha1'])
-			user.save()
-			user = authenticate(username=user, password=data['senha1'])
-			auth_login(request,user)
-			messages.error(request, "Senha alterada com sucesso!")
-		else:
-			messages.error(request, "As senhas não são iguais!")
+		try:
+			validate = password_validation.validate_password(data['senha1'])
+			if data['senha1']  == data['senha2']:
+				request.user.set_password(data['senha1'])
+				user.save()
+				user = authenticate(username=user, password=data['senha1'])
+				auth_login(request,user)
+				messages.error(request, "Senha alterada com sucesso!")
+			else:
+				messages.error(request, "As senhas inseridas não são iguais!")
+		except Exception as e:
+			for i in e:
+				messages.error(request,str(i))
 		return HttpResponseRedirect('/senha')
 	return render(request, 'formulario/senha.html')
 
@@ -173,5 +218,10 @@ def alterar(request,idp):
 		return HttpResponseRedirect('/usuarioscadastrados')
 		#return HttpResponseRedirect("UsuáriosCadastrados")
 	return render(request, 'formulario/Alterar.html',{'pessoa' : pessoa})
+
+@csrf_protect
+def logout(request):
+	auth_logout(request)
+	return HttpResponseRedirect('/')
 
 

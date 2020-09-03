@@ -25,6 +25,7 @@
 		        <td>Nome</td>
 		        <td>Codigo</td>
 		        <td>Foto</td>
+		        <td>Acesso</td>
 		    </tr>
 		    {% for i in pessoas %}
 			    <tr>
@@ -34,11 +35,19 @@
 				        <td>{{ i.codigo }}</td>
 				        <td><img src="media/{{ i.foto }}" alt="My image" width=160 height=90 name="img"></td>
 				        <input type="hidden" name="id" value="{{ i.id }}">
+				        <td>{% if i.bloqueado %} Bloqueado {% else %} Livre {% endif %}</td>
 				        <td><button name="editar"type="submit">Alterar</button></td>
 			        </form>
 			    </tr>
+			
 		    {% endfor %}
 		</table>
+		<br>
+		<form method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="pessoas" value="{{ pessoas }}">
+			<button name="export"type="submit">Exportar CSV</button>
+		</form>
 </body>
 {% endblock %}
 </html> 

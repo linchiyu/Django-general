@@ -39,6 +39,11 @@
 			{% endfor %}
 		</table>
 	</form>
+	<form method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="acessos" value="{{ acessos }}">
+			<button name="export"type="submit">Exportar CSV</button>
+	</form>
 </body>
 {% endblock %}
 </html> 
