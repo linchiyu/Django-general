@@ -25,6 +25,11 @@
 	<br>
 	{% endfor %}
 </form>
+<form method="POST">
+	{% csrf_token %}
+	<input type="hidden" name="pessoas" value="{{ pessoas }}">
+	<button name="export"type="submit">Exportar CSV</button>
+</form>
 <table class="table table-borderless">
 	<tr>
 		<td><strong>Nome</strong></td>
@@ -46,9 +51,4 @@
 	</tr>
 	{% endfor %}
 </table>
-<form method="POST">
-	{% csrf_token %}
-	<input type="hidden" name="pessoas" value="{{ pessoas }}">
-	<button name="export"type="submit">Exportar CSV</button>
-</form>
 {% endblock %}

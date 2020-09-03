@@ -28,6 +28,11 @@
 		</div>
 	</div>
 </form>
+<form method="POST">
+	{% csrf_token %}
+	<input type="hidden" name="acessos" value="{{ acessos }}">
+	<button name="export"type="submit">Exportar CSV</button>
+</form>
 {% for message in messages %}
 <div class="alert alert-danger">
 	{{message}}
@@ -48,10 +53,5 @@
 	</tr>
 	{% endfor %}
 </table>
-	</form>
-	<form method="POST">
-			{% csrf_token %}
-			<input type="hidden" name="acessos" value="{{ acessos }}">
-			<button name="export"type="submit">Exportar CSV</button>
-	</form>
+	
 {% endblock %}
