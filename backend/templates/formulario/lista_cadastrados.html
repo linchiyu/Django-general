@@ -39,8 +39,15 @@
 				        <td><button name="editar"type="submit">Alterar</button></td>
 			        </form>
 			    </tr>
+			
 		    {% endfor %}
 		</table>
+		<br>
+		<form method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="pessoas" value="{{ pessoas }}">
+			<button name="export"type="submit">Exportar CSV</button>
+		</form>
 </body>
 {% endblock %}
 </html> 

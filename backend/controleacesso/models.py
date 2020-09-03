@@ -19,7 +19,7 @@ class Pessoa(models.Model):
     objects = PessoaManager()
 
     def __str__(self):
-        return self.nome
+        return str(self.id)
 
 class Acesso(models.Model):
     class Meta:
@@ -29,4 +29,4 @@ class Acesso(models.Model):
     fkpessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT)
 
     def __str__(self):
-        return str(self.data)
+        return str(self.id)
