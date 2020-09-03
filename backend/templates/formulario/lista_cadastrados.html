@@ -9,14 +9,12 @@
 	<label>Nome</label>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-xs-9">
+			<div class="col-8">
 				<input class="form-control" type="text" name="search">
 			</div>
-			<div class="col-xs-3" style="margin-left:1rem;">
+			<div class="col-3" style="margin-left:1rem;">
 				<button class="btn btn-secondary" name="pesquisar" type="submit">Pesquisar</button><br><br>
-
 			</div>
-
 		</div>
 
 	</div>
@@ -42,7 +40,7 @@
 			<td>{{ i.codigo }}</td>
 			<td><img src="media/{{ i.foto }}" alt="My image" width=160 height=90 name="img"></td>
 			<input type="hidden" name="id" value="{{ i.id }}">
-			<td><button name="editar" type="submit">Alterar</button></td>
+			<td><button class="btn btn-info" name="editar" type="submit">Alterar</button></td>
 		</form>
 	</tr>
 	{% endfor %}

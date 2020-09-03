@@ -5,35 +5,47 @@
 <h2> Lista de Acessos</h2>
 <form method="POST">
 	{% csrf_token %}
-	<label>Data inicial</label>
-	<input class="form-control" type="date" name="dataI"></input>
-	<br>
-	<label>Data final</label>
-	<input class="form-control" type="date" name="dataF">
-	<br>
-	<label>Nome</label>
-	<input class="form-control" type="text" name="search">
-	<br>
-	<button class="btn btn-secondary"type="submit">Pesquisar</button><br><br>
-	{% for message in messages %}
-	<div class="alert alert-danger">
-		{{message}}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-6">
+				<label>Data inicial</label>
+				<input class="form-control" type="date" name="dataI"></input>
+			</div>
+			<div class="col-6">
+				<label>Data final</label>
+				<input class="form-control" type="date" name="dataF">
+			</div>
+		</div>
+		<br>
+		<label>Nome</label>
+		<div class="row">
+			<div class="col-8">
+				<input class="form-control" type="text" name="search">
+			</div>
+			<div class="col-3" style="margin-left:1rem;">
+				<button class="btn btn-secondary" name="pesquisar" type="submit">Pesquisar</button><br><br>
+			</div>
+		</div>
 	</div>
-	<br>
-	{% endfor %}
-	<table class="table">
-		<tr>
-			<td><strong>Nome</strong></td>
-			<td><strong>Data e Hora</strong></td>
-			<td><strong>Tipo</strong></td>
-		</tr>
-		{% for i in acessos %}
-		<tr>
-			<td>{{ i.fkpessoa.nome }}</td>
-			<td>{{ i.data }}</td>
-			<td>{{ i.tipoAcesso }}</td>
-		</tr>
-		{% endfor %}
-	</table>
 </form>
+{% for message in messages %}
+<div class="alert alert-danger">
+	{{message}}
+</div>
+<br>
+{% endfor %}
+<table class="table">
+	<tr>
+		<td><strong>Nome</strong></td>
+		<td><strong>Data e Hora</strong></td>
+		<td><strong>Tipo</strong></td>
+	</tr>
+	{% for i in acessos %}
+	<tr>
+		<td>{{ i.fkpessoa.nome }}</td>
+		<td>{{ i.data }}</td>
+		<td>{{ i.tipoAcesso }}</td>
+	</tr>
+	{% endfor %}
+</table>
 {% endblock %}
