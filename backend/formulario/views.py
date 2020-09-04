@@ -77,8 +77,11 @@ def lista_cad(request):
 		writer = csv.writer(response)
 		writer.writerow(["id","nome","codigo","face_encoded","bloqueado"])
 		for i in pessoasID:
-			pessoas = Pessoa.objects.filter(id=i)
-			writer.writerow([pessoas[0].id,pessoas[0].nome,pessoas[0].codigo,pessoas[0].face_encoded,pessoas[0].bloqueado])
+			try:
+				pessoas = Pessoa.objects.filter(id=i)
+				writer.writerow([pessoas[0].id,pessoas[0].nome,pessoas[0].codigo,pessoas[0].face_encoded,pessoas[0].bloqueado])
+			except:
+				pass
 		return response
 	else:
 		if request.method == 'POST':
