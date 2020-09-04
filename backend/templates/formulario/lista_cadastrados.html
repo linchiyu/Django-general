@@ -1,4 +1,5 @@
 {% extends "lista_link.html" %}
+{% load static %}
 {% block page_title %} Lista Cadastrados
 {% endblock page_title %}
 {% block sidebar_content %}
@@ -9,11 +10,19 @@
 	<label>Nome</label>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-8">
-				<input class="form-control" type="text" name="search">
+			<div class="col-xs-12 col-sm-9	 col-md-9 col-lg-6 col-xl-7">
+				<input class="form-control" type="text" name="search"><br>
 			</div>
-			<div class="col-3" style="margin-left:1rem;">
-				<button class="btn btn-secondary" name="pesquisar" type="submit">Pesquisar</button><br><br>
+			<div class="col-xs-6 col-sm-3 col-md-3 col-lg-2 col-xl-2">
+				<button class="btn btn-secondary" name="pesquisar" type="submit">Pesquisar</button><br>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-lg-4 col-xl-3 float-right">
+				<form method="POST" class="float-right">
+					{% csrf_token %}
+					<input type="hidden" name="pessoas" value="{{ pessoas }}">
+					<button class="btn btn-outline-dark float-right" name="export" type="submit"><img
+							src={% static "img/csv_icon.png" %} style="height: 24px;" alt=""> Exportar CSV</button>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -25,11 +34,7 @@
 	<br>
 	{% endfor %}
 </form>
-<form method="POST">
-	{% csrf_token %}
-	<input type="hidden" name="pessoas" value="{{ pessoas }}">
-	<button name="export"type="submit">Exportar CSV</button>
-</form>
+
 <table class="table table-borderless">
 	<tr>
 		<td><strong>Nome</strong></td>
