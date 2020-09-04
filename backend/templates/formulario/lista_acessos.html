@@ -3,63 +3,65 @@
 {% block page_title %}Lista de Acessos
 {% endblock page_title %}
 {% block sidebar_content %}
-<h2> Lista de Acessos</h2>
-<form method="POST">
-	{% csrf_token %}
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-6 ">
-				<label>Data inicial</label>
-				<input class="form-control" type="date" name="dataI"></input>
+<div class="basic-content_block">
+	<h2> Lista de Acessos</h2>
+	<form method="POST">
+		{% csrf_token %}
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6 ">
+					<label>Data inicial</label>
+					<input class="form-control" type="date" name="dataI"></input>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-6">
+					<label>Data final</label>
+					<input class="form-control" type="date" name="dataF">
+				</div>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-md-6">
-				<label>Data final</label>
-				<input class="form-control" type="date" name="dataF">
+			<br>
+			<label>Nome</label>
+			<div class="row">
+				<div class="col-xs-12 col-sm-9	 col-md-9 col-lg-6 col-xl-7">
+					<input class="form-control" type="text" name="search"><br>
+				</div>
+				<div class="col-xs-6 col-sm-3 col-md-3 col-lg-2 col-xl-2">
+					<button class="btn btn-secondary" name="pesquisar" type="submit">Pesquisar</button><br>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-lg-4 col-xl-3 float-right">
+					<form method="POST" class="float-right">
+						{% csrf_token %}
+						<input type="hidden" name="acessos" value="{{ acessos }}">
+						<button class="btn btn-outline-dark float-right" name="export" type="submit"><img
+								src={% static "img/csv_icon.png" %} style="height: 24px;" alt=""> Exportar CSV</button>
+					</form>
+				</div>
 			</div>
-		</div>
-		<br>
-		<label>Nome</label>
-		<div class="row">
-			<div class="col-xs-12 col-sm-9	 col-md-9 col-lg-6 col-xl-7">
-				<input class="form-control" type="text" name="search"><br>
-			</div>
-			<div class="col-xs-6 col-sm-3 col-md-3 col-lg-2 col-xl-2">
-				<button class="btn btn-secondary" name="pesquisar" type="submit">Pesquisar</button><br>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-lg-4 col-xl-3 float-right">
-				<form method="POST" class="float-right">
-					{% csrf_token %}
-					<input type="hidden" name="acessos" value="{{ acessos }}">
-					<button class="btn btn-outline-dark float-right" name="export" type="submit"><img
-							src={% static "img/csv_icon.png" %} style="height: 24px;" alt=""> Exportar CSV</button>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			
-		</div>
-	</div>
+			<div class="row">
 
-</form>
-{% for message in messages %}
-<div class="alert alert-danger">
-	{{message}}
-</div>
-<br>
-{% endfor %}
-<table class="table">
-	<tr>
-		<td><strong>Nome</strong></td>
-		<td><strong>Data e Hora</strong></td>
-		<td><strong>Tipo</strong></td>
-	</tr>
-	{% for i in acessos %}
-	<tr>
-		<td>{{ i.fkpessoa.nome }}</td>
-		<td>{{ i.data }}</td>
-		<td>{{ i.tipoAcesso }}</td>
-	</tr>
+			</div>
+		</div>
+
+	</form>
+	{% for message in messages %}
+	<div class="alert alert-danger">
+		{{message}}
+	</div>
+	<br>
 	{% endfor %}
-</table>
+	<table class="table">
+		<tr>
+			<td><strong>Nome</strong></td>
+			<td><strong>Data e Hora</strong></td>
+			<td><strong>Tipo</strong></td>
+		</tr>
+		{% for i in acessos %}
+		<tr>
+			<td>{{ i.fkpessoa.nome }}</td>
+			<td>{{ i.data }}</td>
+			<td>{{ i.tipoAcesso }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
 
 {% endblock %}

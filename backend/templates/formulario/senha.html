@@ -1,7 +1,8 @@
-{% extends "lista_link.html" %}	
+{% extends "lista_link.html" %}
 {% block page_title %}Alterar Senha
 {% endblock page_title %}
 {% block sidebar_content %}
+<div class="basic-content_block">
 	<h2>Alterar Senha</h2>
 	<form method="POST">
 		{% csrf_token %}
@@ -12,10 +13,11 @@
 		{% for message in messages %}
 		<br>
 		<div class="alert alert-danger">
-  			{{message}}
+			{{message}}
 		</div>
 		{% endfor %}
 		<br>
 		<button class="btn btn-secondary" type="submit">Salvar</button><br><br>
 	</form>
+</div>
 {% endblock %}

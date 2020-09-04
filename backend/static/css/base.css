@@ -64,3 +64,6 @@ footer{
     font-weight: bold;
     background-color: #13224E;
 }
+.basic-content_block{
+    padding: 5rem 2rem;
+}

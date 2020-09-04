@@ -2,33 +2,37 @@
 {% block page_title %}Cadastrar Usuario
 {% endblock page_title %}
 {% block sidebar_content %}
+<div class="basic-content_block">
+	<h2>Cadastrar Usuário</h2>
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<label>Nome</label>
+		<input class="form-control" type="text" name="name"><br>
+		<label style="margin-right: 5px;">Codigo</label><span class="badge badge-secondary"
+			style="font-size:110% !important;"><input style="margin: 0 5px;" type="checkbox" id="checkbox" name="scales"
+				checked>Gerar código automatico
+		</span>
 
-<h2>Cadastrar Usuário</h2>
-<form method="POST" enctype="multipart/form-data">
-	{% csrf_token %}
-	<label>Nome</label>
-	<input class="form-control" type="text" name="name"><br>
-	<label style="margin-right: 5px;">Codigo</label><span class="badge badge-secondary" style="font-size:110% !important;"><input style="margin: 0 5px;"type="checkbox" id="checkbox" name="scales" checked>Gerar código automatico
-	</span>
+		<input class="form-control" type="text" name="code" id="code" disabled><br><br>
+		<label>Imagem</label><br>
+		<input class="" type="file" name="img"><br><br>
+		{% for message in messages %}
+		<div class="alert alert-danger">
+			{{message}}
+		</div>
+		<br>
+		{% endfor %}
+		<script>
+			$("#checkbox").change(function () {
+				if (this.checked) {
+					document.getElementById("code").disabled = true;
+				} else {
+					document.getElementById("code").disabled = false;
+				}
+			});
 
-	<input class="form-control" type="text" name="code" id="code" disabled><br><br>
-	<label>Imagem</label><br>
-	<input class="" type="file" name="img"><br><br>
-	{% for message in messages %}
-	<div class="alert alert-danger">
-		{{message}}
-	</div>
-	<br>
-	{% endfor %}
-	<script>
-		$("#checkbox").change(function () {
-			if (this.checked) {
-				document.getElementById("code").disabled = true;
-			} else {
-				document.getElementById("code").disabled = false;
-			}
-		});
-	</script>
-	<button class="btn btn-primary" type="submit">Enviar</button><br><br>
-</form>
+		</script>
+		<button class="btn btn-primary" type="submit">Enviar</button><br><br>
+	</form>
+</div>
 {% endblock sidebar_content%}
