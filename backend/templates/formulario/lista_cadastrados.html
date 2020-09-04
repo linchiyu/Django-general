@@ -5,36 +5,37 @@
 {% block sidebar_content %}
 <div class="basic-content_block">
 	<h2>Usuarios Cadastrados</h2>
-	<form method="POST">
-		{% csrf_token %}
-		{% load static %}
-		<div class="container-fluid">
-			<label>Nome</label>
+	<div class="container-fluid">
+		<label>Nome</label>
+		<form method="POST">
 			<div class="row">
+				{% csrf_token %}
+
 				<div class="col-xs-12 col-sm-9	 col-md-9 col-lg-6 col-xl-7">
 					<input class="form-control" type="text" name="search"><br>
 				</div>
 				<div class="col-xs-6 col-sm-3 col-md-3 col-lg-2 col-xl-2">
 					<button class="btn btn-secondary" name="pesquisar" type="submit">Pesquisar</button><br>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-lg-4 col-xl-3 float-right">
-					<form method="POST" class="float-right">
-						{% csrf_token %}
-						<input type="hidden" name="pessoas" value="{{ pessoas }}">
-						<button class="btn btn-outline-dark float-right" name="export" type="submit"><img
-								src={% static "img/csv_icon.png" %} style="height: 24px;" alt=""> Exportar CSV</button>
-					</form>
-				</div>
+			</form>
+
+			<div class="col-xs-12 col-sm-12 col-lg-4 col-xl-3 float-right">
+				<form method="POST" class="float-right">
+					{% csrf_token %}
+					<input type="hidden" name="pessoas" value="{{ pessoas }}">
+					<button class="btn btn-outline-dark float-right" name="export" type="submit"><img
+							src={% static "img/csv_icon.png" %} style="height: 24px;" alt=""> Exportar CSV</button>
+				</form>
 			</div>
 		</div>
-		<br>
-		{% for message in messages %}
-		<div class="alert alert-danger">
-			{{message}}
-		</div>
-		<br>
-		{% endfor %}
-	</form>
+	</div>
+	<br>
+	{% for message in messages %}
+	<div class="alert alert-danger">
+		{{message}}
+	</div>
+	<br>
+	{% endfor %}
 
 	<table class="table table-borderless">
 		<tr>
