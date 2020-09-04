@@ -3,33 +3,39 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="{%static 'js/bootstrap/jquery-3.3.1.slim.min.js'%}"></script>
-    <script src="{%static 'js/bootstrap/popper.min.js'%}"></script>
-    <script src="{%static 'js/bootstrap/bootstrap.min.js'%}"></script>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="{%static 'js/bootstrap/jquery-3.3.1.slim.min.js'%}"></script>
+        <script src="{%static 'js/bootstrap/popper.min.js'%}"></script>
+        <script src="{%static 'js/bootstrap/bootstrap.min.js'%}"></script>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{% static 'img/articfox.ico' %}" />
-    <title>
-        {% block page_title %} {% endblock page_title %} - ArticFox
-    </title>
-</head>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{% static 'img/articfox.ico' %}" />
+        <title>
+            {% block page_title %} {% endblock page_title %} - ArticFox
+        </title>
+    </head>
 
-<body >
+    <body>
 
-    {% block content %} {% endblock content %}
-    
+        {% block content %} {% endblock content %}
 
-</body>
+        <footer class="text-center py-3  footer">
+            <!-- Copyright -->
+                © 2020 Copyright:
+                <a href=""> ArticFox</a>
+            <!-- Copyright -->
+
+        </footer>
+    </body>
 
 </html>

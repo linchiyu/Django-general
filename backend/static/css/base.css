@@ -1,3 +1,37 @@
+.custom-bg {
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login-bg {
+    /* The image used */
+    background-image: url("/static/img/login_bg.jpg");
+}
+
+.about-bg {
+    /* The image used */
+    background-image: url("/static/img/about_background.png");
+    height: 100%;
+
+}
+
+.login-form-container {
+    /* Login form container */
+    /* gives transparency */
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 25px;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+.menu-toggle {
+    z-index: 1010;
+    position: fixed;
+}
+
 .form-control {
     border-color: #29396a !important;
 }
@@ -13,7 +47,10 @@ html,
 }
 
 .sidebar_form_container {
-    padding: 2rem;
+    height: 100%;
+    /* margin-top: -2.5rem; */
+    z-index: -1;
+
 }
 
 h1,
@@ -21,4 +58,12 @@ h2,
 h3 {
     color: #29396a;
 
+}
+footer{
+    color:white;
+    font-weight: bold;
+    background-color: #13224E;
+}
+.basic-content_block{
+    padding: 5rem 2rem;
 }
