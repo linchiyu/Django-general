@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from controleacesso.models import Pessoa
 from controleacesso.models import Acesso
+from controleacesso.logic import encodeFace
 from rest_framework import serializers
 import datetime
 from datetime import timedelta
@@ -15,8 +16,15 @@ from PIL import Image
 from django.contrib.auth import password_validation
 import csv
 from django.http import HttpResponse
+from threading import Thread
 
 # Create your views here.
+
+#call  t = Thread(target=processarFace, args=(novaPessoa,), daemon=True).start()
+def processarFace(pessoa):
+    encoded = encodeFace(pessoa.foto)
+    pessoa.face_encoded = encoded
+    pessoa.save()
 
 @csrf_protect
 def login(request):
@@ -34,22 +42,22 @@ def login(request):
 @login_required(login_url='/')
 def cad_face(request):
 	data = {}
-	print("oi")
 	if request.method == 'POST':
 		if 'img' in request.FILES:
 			uploaded_file = request.FILES['img']
-			print(uploaded_file)
 			data['nome'] = request.POST.get("name")
 			data['codigo'] = request.POST.get("code")
 			data['check'] = bool(request.POST.get("scales"))
 			if data['nome'] != "" and data['check'] == True:
 				pes = Pessoa.objects.create_Pessoa(data['nome'], "" ,uploaded_file,False)
 				pes.save()
-				messages.error(request, "Usuário cadastrado com sucesso!")
+				t = Thread(target=processarFace, args=(pes,), daemon=True).start()
+				messages.success(request, "Usuário cadastrado com sucesso!")
 			elif data['nome'] != "" and data['check'] == False and data['codigo'] != "":
 				pes = Pessoa.objects.create_Pessoa(data['nome'], data['codigo'] ,uploaded_file,False)
 				pes.save()
-				messages.error(request, "Usuário cadastrado com sucesso!")
+				t = Thread(target=processarFace, args=(pes,), daemon=True).start()
+				messages.success(request, "Usuário cadastrado com sucesso!")
 			else:
 				messages.error(request, "Algum campo não preenchido!")
 			return render(request, 'formulario/cadastro_face.html')
@@ -186,7 +194,7 @@ def senha(request,):
 				user.save()
 				user = authenticate(username=user, password=data['senha1'])
 				auth_login(request,user)
-				messages.error(request, "Senha alterada com sucesso!")
+				messages.success(request, "Senha alterada com sucesso!")
 			else:
 				messages.error(request, "As senhas inseridas não são iguais!")
 		except Exception as e:

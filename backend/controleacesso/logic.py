@@ -1,8 +1,10 @@
-#import face_recognition
+import face_recognition
 import numpy as np
 import json
 from json import JSONEncoder
 from threading import Thread
+from django.conf import settings
+import cv2
 
 class NumpyArrayEncoder(JSONEncoder):
     def default(self, obj):
@@ -13,9 +15,8 @@ class NumpyArrayEncoder(JSONEncoder):
 def encodeFace(path):
     #transforma imagem do PATH para um json com {"face": [128-D face points array]}
     try:
-        image = face_recognition.load_image_file(path)
-        #face_encoding = face_recognition.face_encodings(image)[0]
-        face_encoding = ''
+        image = face_recognition.load_image_file(settings.MEDIA_ROOT+'/'+str(path))
+        face_encoding = face_recognition.face_encodings(image)[0]
 
         # Serialization
         numpyData = {"face": face_encoding}
@@ -24,6 +25,7 @@ def encodeFace(path):
         #print(encodedNumpyData)
         return encodedNumpyData
     except:
+        print("exception")
         return json.dumps({"face": []})
 
 

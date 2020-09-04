@@ -12,7 +12,11 @@
 		<input class="form-control" type="password" name="password2"><br>
 		{% for message in messages %}
 		<br>
+		{% if message.tags == 'success' %}
+		<div class="alert alert-success">
+		{% else %}
 		<div class="alert alert-danger">
+		{% endif %}
 			{{message}}
 		</div>
 		{% endfor %}

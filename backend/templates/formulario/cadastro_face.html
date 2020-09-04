@@ -17,7 +17,11 @@
 		<label>Imagem</label><br>
 		<input class="" type="file" name="img"><br><br>
 		{% for message in messages %}
+		{% if message.tags == 'success' %}
+		<div class="alert alert-success">
+		{% else %}
 		<div class="alert alert-danger">
+		{% endif %}
 			{{message}}
 		</div>
 		<br>
