@@ -1,14 +1,26 @@
-{% extends "lista_link.html" %}	
+{% extends "lista_link.html" %}
 {% block page_title %}Sobre
 {% endblock page_title %}
 {% block sidebar_content %}
-<body>
-	<form method="POST">
-		{% csrf_token %}
-		<p>Texto Sobre 
-		<br>
-		Desenvolvido por Articfox. Contato xxx<br></p>
-	</form>
-</body>
+
+<div class="container-fluid h-100 custom-bg about-bg">
+	<div class="row h-100 justify-content-start align-items-center">
+		<div class="col-sm-10 col-md-9 col-lg-7  col-xl-4">
+			<div class="login-form-container">
+				<form class="" method="POST" style="padding-bottom: 7rem; ">
+					{% csrf_token %}
+
+					<h1>ArticFox</h1>
+					<label for="">
+						Utilizar inteligencia artifical nunca foi tao facil.<br>
+						Nosas aplicacoes desenvolvidas com a
+						mais nova tecnologia da raposa, irao sobrecarregar seu pentiumII.
+
+					</label>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
 {% endblock %}
-</html> 
