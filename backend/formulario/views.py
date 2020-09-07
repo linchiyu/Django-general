@@ -76,17 +76,11 @@ def lista_cad(request):
 	elif data['pessoas']:
 		response = HttpResponse(content_type='text/csv')
 		response['Content-Disposition'] = 'attachment; filename="usuarios.csv"'
-		aux = []
-		pessoasID =  data['pessoas'].split(" ")
-		for i in range(len(pessoasID) +1):
-			if i%2 != 0 and i != 1:
-				aux.append(pessoasID[i -1].split(">")[0])
-		pessoasID = aux
 		writer = csv.writer(response)
 		writer.writerow(["id","nome","codigo","face_encoded","bloqueado"])
-		for i in pessoasID:
-			pessoas = Pessoa.objects.filter(id=i)
-			writer.writerow([pessoas[0].id,pessoas[0].nome,pessoas[0].codigo,pessoas[0].face_encoded,pessoas[0].bloqueado])
+		pessoas = Pessoa.objects.all()
+		for p in pessoas:
+			writer.writerow([p.id,p.nome,p.codigo,p.face_encoded,p.bloqueado])
 		return response
 	else:
 		if request.method == 'POST':
@@ -106,7 +100,6 @@ def lista_cad(request):
 @login_required(login_url='/')
 def lista_ace(request):
 	data = {}
-	acessos = Acesso.objects.select_related('fkpessoa')
 	data['acessos'] = request.POST.get("acessos")
 	if data['acessos']:
 		response = HttpResponse(content_type='text/csv')
@@ -166,6 +159,7 @@ def lista_ace(request):
 						acessos = Acesso.objects.select_related('fkpessoa')
 						messages.error(request, "Nenhum resultado encontrado!")
 					return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
+	acessos = Acesso.objects.select_related('fkpessoa')
 	return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
 
 @login_required(login_url='/')
@@ -205,10 +199,10 @@ def senha(request,):
 
 @login_required(login_url='/')
 def alterar(request,idp):
-	data = {}
-	uploaded_file = ""
 	pessoa = Pessoa.objects.filter(id=idp)
 	if request.method == 'POST':
+		data = {}
+		uploaded_file = ""
 		if 'img' in request.FILES:
 			uploaded_file = request.FILES['img']
 		data['nome'] = request.POST.get("name")
@@ -225,11 +219,9 @@ def alterar(request,idp):
 			pes = Pessoa.objects.filter(id=idp).update(nome=data['nome'],codigo=data['codigo'],foto=uploaded_file,bloqueado=data['bloqueado'])
 		return HttpResponseRedirect('/usuarioscadastrados')
 		#return HttpResponseRedirect("UsuáriosCadastrados")
-	return render(request, 'formulario/Alterar.html',{'pessoa' : pessoa})
+	return render(request, 'formulario/alterar.html',{'pessoa' : pessoa})
 
 @csrf_protect
 def logout(request):
 	auth_logout(request)
 	return HttpResponseRedirect('/')
-
-
