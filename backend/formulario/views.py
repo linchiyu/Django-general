@@ -101,20 +101,14 @@ def lista_cad(request):
 def lista_ace(request):
 	data = {}
 	data['acessos'] = request.POST.get("acessos")
+	acessos = Acesso.objects.select_related('fkpessoa')[::-1]
 	if data['acessos']:
 		response = HttpResponse(content_type='text/csv')
 		response['Content-Disposition'] = 'attachment; filename="entradas.csv"'
-		aux = []
-		acessosID =  data['acessos'].split(" ")
-		for i in range(len(acessosID) +1):
-			if i%2 != 0 and i != 1:
-				aux.append(acessosID[i -1].split(">")[0])
-		acessosID = aux
 		writer = csv.writer(response)
-		writer.writerow(["id","fkpessoa.nome","data","tipoAcesso"])
-		for i in acessosID:
-			acessos = Acesso.objects.select_related('fkpessoa').filter(id=i)
-			writer.writerow([acessos[0].id,acessos[0].fkpessoa.nome,acessos[0].data,acessos[0].tipoAcesso])
+		writer.writerow(["id","idpessoa", "nome","data","tipoAcesso"])
+		for i in reversed(acessos):
+			writer.writerow([i.id, i.fkpessoa, i.fkpessoa.nome, i.data, i.tipoAcesso])
 		return response
 	else:
 		if request.method == 'POST':
@@ -134,15 +128,14 @@ def lista_ace(request):
 					data['dataIni'] = datetime.datetime.strptime(data['dataIni'], '%Y-%m-%d')
 				else:
 					data['dataIni'] = '2000-01-01'
-				acessos = Acesso.objects.select_related('fkpessoa').filter(data__range=[data['dataIni'],data['dataFim']])
+				acessos = Acesso.objects.select_related('fkpessoa').filter(data__range=[data['dataIni'],data['dataFim']])[::-1]
 				if len(acessos) == 0:
-					acessos = Acesso.objects.select_related('fkpessoa')
+					acessos = Acesso.objects.select_related('fkpessoa')[::-1]
 					messages.error(request, "Nenhum resultado encontrado!")
 				return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
 			else:
 				pessoas = Pessoa.objects.filter(nome=data['pesquisa'])
 				if len(pessoas) == 0:
-					acessos = Acesso.objects.select_related('fkpessoa')
 					messages.error(request, "Nenhum resultado encontrado!")
 				else:
 					if data['dataFim'] != "":
@@ -154,12 +147,11 @@ def lista_ace(request):
 						data['dataIni'] = datetime.datetime.strptime(data['dataIni'], '%Y-%m-%d')
 					else:
 						data['dataIni'] = '2000-01-01'
-					acessos = Acesso.objects.select_related('fkpessoa').filter(fkpessoa_id=pessoas[0].id).filter(data__range=[data['dataIni'],data['dataFim']])
+					acessos = Acesso.objects.select_related('fkpessoa').filter(fkpessoa_id=pessoas[0].id).filter(data__range=[data['dataIni'],data['dataFim']])[::-1]
 					if len(acessos) == 0:
-						acessos = Acesso.objects.select_related('fkpessoa')
+						acessos = Acesso.objects.select_related('fkpessoa')[::-1]
 						messages.error(request, "Nenhum resultado encontrado!")
 					return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
-	acessos = Acesso.objects.select_related('fkpessoa')
 	return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
 
 @login_required(login_url='/')

@@ -6,9 +6,9 @@
 	<h2>Alterar Senha</h2>
 	<form method="POST">
 		{% csrf_token %}
-		<label>Digite a nova senha</label><br>
+		<label>Nova senha</label><br>
 		<input class="form-control" type="password" name="password"><br><br>
-		<label>Confirme ela novamente</label><br>
+		<label>Repita a senha</label><br>
 		<input class="form-control" type="password" name="password2"><br>
 		{% for message in messages %}
 		<br>

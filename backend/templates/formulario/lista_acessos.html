@@ -34,7 +34,7 @@
 		<div class="col-xs-12 col-sm-12 col-lg-4 col-xl-3 float-right">
 			<form method="POST" class="float-right">
 				{% csrf_token %}
-				<input type="hidden" name="acessos" value="{{ acessos }}">
+				<input type="hidden" name="acessos" value="True">
 				<button class="btn btn-outline-dark float-right" name="export" type="submit"><img
 						src={% static "img/csv_icon.png" %} style="height: 24px;" alt=""> Exportar CSV</button>
 			</form>
