@@ -4,7 +4,6 @@ import json
 from json import JSONEncoder
 from threading import Thread
 from django.conf import settings
-import cv2
 
 class NumpyArrayEncoder(JSONEncoder):
     def default(self, obj):

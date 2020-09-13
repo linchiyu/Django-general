@@ -1,4 +1,4 @@
-asgiref==3.2.7
+asgiref
 Django==3.1
 pytz==2020.1
 sqlparse==0.3.1
@@ -10,3 +10,4 @@ markdown
 django-filter
 django-pagseguro2
 Pillow
+face_recognition

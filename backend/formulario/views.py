@@ -101,13 +101,13 @@ def lista_cad(request):
 def lista_ace(request):
 	data = {}
 	data['acessos'] = request.POST.get("acessos")
-	acessos = Acesso.objects.select_related('fkpessoa')[::-1]
+	acessos = Acesso.objects.select_related('fkpessoa').order_by('id').reverse()
 	if data['acessos']:
 		response = HttpResponse(content_type='text/csv')
 		response['Content-Disposition'] = 'attachment; filename="entradas.csv"'
 		writer = csv.writer(response)
 		writer.writerow(["id","idpessoa", "nome","data","tipoAcesso"])
-		for i in reversed(acessos):
+		for i in acessos:
 			writer.writerow([i.id, i.fkpessoa, i.fkpessoa.nome, i.data, i.tipoAcesso])
 		return response
 	else:
@@ -117,7 +117,7 @@ def lista_ace(request):
 			data['dataFim'] = request.POST.get("dataF")
 			if data['dataIni'] == "" and data['dataFim'] == "" and data['pesquisa'] == "":
 				messages.error(request, "Campos da pesquisa não preenchidos!")
-				return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
+				return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos[:10001]})
 			if data['pesquisa'] == "":
 				if data['dataFim'] != "":
 					data['dataFim'] = datetime.datetime.strptime(data['dataFim'], '%Y-%m-%d')
@@ -128,11 +128,11 @@ def lista_ace(request):
 					data['dataIni'] = datetime.datetime.strptime(data['dataIni'], '%Y-%m-%d')
 				else:
 					data['dataIni'] = '2000-01-01'
-				acessos = Acesso.objects.select_related('fkpessoa').filter(data__range=[data['dataIni'],data['dataFim']])[::-1]
+				acessos = Acesso.objects.select_related('fkpessoa').filter(data__range=[data['dataIni'],data['dataFim']]).order_by('id').reverse()
 				if len(acessos) == 0:
-					acessos = Acesso.objects.select_related('fkpessoa')[::-1]
+					acessos = Acesso.objects.select_related('fkpessoa').order_by('id').reverse()
 					messages.error(request, "Nenhum resultado encontrado!")
-				return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
+				return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos[:10001]})
 			else:
 				pessoas = Pessoa.objects.filter(nome=data['pesquisa'])
 				if len(pessoas) == 0:
@@ -147,12 +147,12 @@ def lista_ace(request):
 						data['dataIni'] = datetime.datetime.strptime(data['dataIni'], '%Y-%m-%d')
 					else:
 						data['dataIni'] = '2000-01-01'
-					acessos = Acesso.objects.select_related('fkpessoa').filter(fkpessoa_id=pessoas[0].id).filter(data__range=[data['dataIni'],data['dataFim']])[::-1]
+					acessos = Acesso.objects.select_related('fkpessoa').filter(fkpessoa_id=pessoas[0].id).filter(data__range=[data['dataIni'],data['dataFim']]).order_by('id').reverse()
 					if len(acessos) == 0:
-						acessos = Acesso.objects.select_related('fkpessoa')[::-1]
+						acessos = Acesso.objects.select_related('fkpessoa').order_by('id').reverse()
 						messages.error(request, "Nenhum resultado encontrado!")
-					return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
-	return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
+					return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos[:10001]})
+	return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos[:10001]})
 
 @login_required(login_url='/')
 def config(request):

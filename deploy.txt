@@ -1,0 +1,64 @@
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo pip3 install virtualenv
+
+cd ~/Documents/Django-general
+virtualenv djangoenv
+
+source djangoenv/bin/activate
+cd ~/Documents/Django-general/backend
+pip3 install -r requirements.txt
+
+python3 manage.py makemigrations
+python3 manage.py migrate
+
+python3 manage.py createsuperuser
+#############################
+
+python3 manage.py collectstatic
+
+deactivate
+
+
+
+####setup apach
+
+sudo apt-get install apache2 -y
+sudo apt-get install apache2-dev -y
+sudo apt-get install apache2-mpm-worker -y
+sudo apt-get install libapache2-mod-wsgi-py3
+sudo nano /etc/apache2/sites-available/000-default.conf
+
+    Alias /static /home/pi/Documents/Django-general/backend/static_root
+    <Directory /home/pi/Documents/Django-general/backend/static_root> 
+        <IfVersion < 2.3 >
+           Order allow,deny
+           Allow from all
+        </IfVersion>
+        <IfVersion >= 2.3>
+           Require all granted
+        </IfVersion>
+    </Directory>
+  
+    <Directory /home/pi/Documents/Django-general/backend/general>
+        <Files wsgi.py>
+            <IfVersion < 2.3 >
+               Order allow,deny
+               Allow from all
+            </IfVersion>
+            <IfVersion >= 2.3>
+               Require all granted
+            </IfVersion>
+        </Files>
+    </Directory>
+    WSGIDaemonProcess djangowebserver python-path=/home/pi/Documents/Django-general/backend python-home=/home/pi/Documents/Django-general/djangoenv
+    WSGIProcessGroup djangowebserver
+    WSGIScriptAlias / /home/pi/Documents/Django-general/backend/general/wsgi.py
+
+
+chmod g+w ~/Documents/Django-general/backend/db.sqlite3
+chmod g+w ~/Documents/Django-general
+sudo chown :www-data db.sqlite3
+sudo chown :www-data ~/Documents/Django-general
+
+sudo service apache2 restart
