@@ -39,6 +39,16 @@ sudo nano /etc/apache2/sites-available/000-default.conf
            Require all granted
         </IfVersion>
     </Directory>
+    Alias /media /home/pi/Documents/Django-general/backend/media
+    <Directory /home/pi/Documents/Django-general/backend/media> 
+        <IfVersion < 2.3 >
+           Order allow,deny
+           Allow from all
+        </IfVersion>
+        <IfVersion >= 2.3>
+           Require all granted
+        </IfVersion>
+    </Directory>
   
     <Directory /home/pi/Documents/Django-general/backend/general>
         <Files wsgi.py>
@@ -57,8 +67,10 @@ sudo nano /etc/apache2/sites-available/000-default.conf
 
 
 chmod g+w ~/Documents/Django-general/backend/db.sqlite3
+chmod g+w ~/Documents/Django-general/backend
 chmod g+w ~/Documents/Django-general
 sudo chown :www-data db.sqlite3
 sudo chown :www-data ~/Documents/Django-general
+sudo chown :www-data ~/Documents/Django-general/backend
 
 sudo service apache2 restart
