@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     #'defender',
     'rest_framework',
     'rest_framework.authtoken',
+    'import_export',
 
     #myapps
     'autenticacao',

@@ -10,5 +10,20 @@ from .models import Pessoa, Acesso
 admin.site.register(Empresa, EmpresaAdmin)'''
 
 #those models will apear in django admin panel
-admin.site.register(Pessoa)
 admin.site.register(Acesso)
+
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+
+
+
+class PessoaResource(resources.ModelResource):
+
+    class Meta:
+        model = Pessoa
+
+class PessoaAdmin(ImportExportModelAdmin):
+	resource_class = PessoaResource
+
+
+admin.site.register(Pessoa, PessoaAdmin)
