@@ -12,3 +12,4 @@ django-pagseguro2
 Pillow
 face_recognition
 django-import-export
+django-filter

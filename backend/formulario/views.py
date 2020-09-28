@@ -17,6 +17,7 @@ from django.contrib.auth import password_validation
 import csv
 from django.http import HttpResponse
 from threading import Thread
+from django.core.files.base import ContentFile
 
 # Create your views here.
 
@@ -203,12 +204,17 @@ def alterar(request,idp):
 		if data['nome'] == "":
 			messages.error(request, "Algum campo não preenchido!")
 			return render(request, 'formulario/Alterar.html',{'pessoa' : pessoa})
-		if uploaded_file == "":
-			pes = Pessoa.objects.filter(id=idp).update(nome=data['nome'],codigo=data['codigo'],bloqueado=data['bloqueado'])
+		pes = Pessoa.objects.get(id=idp)
+		pes.nome=data['nome']
+		pes.codigo=data['codigo']
+		pes.bloqueado=data['bloqueado']
 		if uploaded_file != "":
-			im = Image.open(uploaded_file)
-			im.save("media/"+str(uploaded_file))
-			pes = Pessoa.objects.filter(id=idp).update(nome=data['nome'],codigo=data['codigo'],foto=uploaded_file,bloqueado=data['bloqueado'])
+			#image = ContentFile(uploaded_file)
+			#im.save("media/"+str(uploaded_file))
+			pes.foto.save(str(uploaded_file), uploaded_file, save=True)
+		pes.save()
+		if uploaded_file != "":
+			t = Thread(target=processarFace, args=(pes,), daemon=True).start()
 		return HttpResponseRedirect('/usuarioscadastrados')
 		#return HttpResponseRedirect("UsuáriosCadastrados")
 	return render(request, 'formulario/alterar.html',{'pessoa' : pessoa})

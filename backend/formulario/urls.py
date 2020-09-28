@@ -22,6 +22,3 @@ urlpatterns = [
     path('logout', logout, name = 'formulario_logout'),
     path('alterar/<int:idp>', alterar, name = 'formulario_alterar'),
 ]
-
-
-    

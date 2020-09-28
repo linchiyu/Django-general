@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -6,10 +6,13 @@ baseurl = 'api'
 
 urlpatterns = [
     path(baseurl+'/pessoa/new', views.PessoaCreate.as_view(), name='cpessoa'),
+    path(baseurl+'/pessoa/create', views.PessoaApiCreate.as_view(), name='capipessoa'),
     path(baseurl+'/pessoa/list', views.PessoaList.as_view(), name='lpessoa'),
     path(baseurl+'/pessoa/facelist', views.PessoaFace.as_view(), name='flpessoa'),
     path(baseurl+'/pessoa/update/<int:pk>', views.PessoaUpdate.as_view(), name='upessoa'),
+    path(baseurl+'/pessoa/<int:pk>', views.PessoaRetrieve.as_view(), name='rpessoa'),
 
     path(baseurl+'/acesso/new', views.AcessoCreate.as_view(), name='cacesso'),
     path(baseurl+'/acesso/list', views.AcessoList.as_view(), name='lacesso'),
+    #re_path(r'^api/acesso/list/(?P<idpessoa>\w+)/$', views.AcessoList.as_view(), name='lacesso'),
 ]
