@@ -72,7 +72,7 @@ MIDDLEWARE = [
     #'defender.middleware.FailedLoginMiddleware',
 ]
 
-ROOT_URLCONF = 'general.urls'
+ROOT_URLCONF = 'djangoapp.urls'
 
 TEMPLATES = [
     {
@@ -95,7 +95,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'general.wsgi.application'
+WSGI_APPLICATION = 'djangoapp.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -117,14 +117,14 @@ AUTHENTICATION_BACKENDS = (
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-}
+}'''
 
-'''DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ekodevdb',
@@ -133,7 +133,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '3306',
     }
-}'''
+}
 
 
 # Password validation
