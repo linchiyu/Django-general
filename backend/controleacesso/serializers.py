@@ -17,7 +17,7 @@ class PessoaFaceSerializer(serializers.ModelSerializer):
 
 class PessoaApiFaceSerializer(serializers.ModelSerializer):
 
-    imageBase64 = serializers.CharField()
+    imageBase64 = serializers.CharField(required=False)
 
     class Meta:
         model = Pessoa

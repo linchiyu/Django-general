@@ -102,17 +102,22 @@ class PessoaUpdate(generics.UpdateAPIView):
     def put(self, request, pk):
         serializer = PessoaApiFaceSerializer(data=request.data)
         if serializer.is_valid():
-            image = ContentFile(base64.b64decode(serializer.data['imageBase64']))
 
             pessoa = Pessoa.objects.get(id=pk)
             pessoa.nome = serializer.data['nome']
             pessoa.codigo = serializer.data['codigo']
             pessoa.bloqueado = serializer.data['bloqueado']
 
-            pessoa.foto.save(str(pessoa.id)+'.jpg', image, save=True)
+            image_str = serializer.data.get('imageBase64', None)
+
+            if image_str != None and image_str != '':
+                image = ContentFile(base64.b64decode(image_str))
+                pessoa.foto.save(str(pessoa.id)+'.jpg', image, save=True)
+
             pessoa.save()
 
-            t = Thread(target=processarFace, args=(pessoa,), daemon=True).start()
+            if image_str != None and image_str != '':
+                t = Thread(target=processarFace, args=(pessoa,), daemon=True).start()
             
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
