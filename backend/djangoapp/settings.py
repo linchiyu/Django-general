@@ -42,11 +42,12 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'import_export',
     'django_filters',
-
+    
     #myapps
     'autenticacao',
     'controleacesso',
     'formulario',
+    'cctv',
     #allauth
     'allauth',
     'allauth.account',
