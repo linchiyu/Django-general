@@ -53,4 +53,5 @@ def gen2(mem):
 
 def videoStream():
     #return StreamingHttpResponse(gen(VideoCamera()), content_type='multipart/x-mixed-replace; boundary=frame')
-    return StreamingHttpResponse(gen2(Memory()), content_type='multipart/x-mixed-replace; boundary=frame')
+    return StreamingHttpResponse(gen2(Memory()), 
+        content_type='multipart/x-mixed-replace; boundary=frame')
