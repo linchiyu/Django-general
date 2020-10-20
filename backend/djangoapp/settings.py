@@ -45,9 +45,7 @@ INSTALLED_APPS = [
     
     #myapps
     'autenticacao',
-    'controleacesso',
-    'formulario',
-    'cctv',
+    'cftv',
     #allauth
     'allauth',
     'allauth.account',

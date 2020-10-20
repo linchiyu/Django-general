@@ -5,6 +5,33 @@ import numpy as np
 from multiprocessing import shared_memory
 import time
 
+#models and serializers
+from .models import Server, Camera
+from .serializers import ServerSerializer, CameraSerializer
+
+#django imports
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+
+
+#=======REST FRAMEWORK=========
+class ServerList(generics.ListAPIView):
+    #permission_classes = (IsAuthenticated,)
+    
+    queryset = Server.objects.all()
+    serializer_class = ServerSerializer
+    filterset_fields = {
+    }
+
+class CameraList(generics.ListAPIView):
+    #permission_classes = (IsAuthenticated,)
+    
+    queryset = Camera.objects.filter(active=True)
+    serializer_class = CameraSerializer
+    filterset_fields = {
+        #"fkpessoa": ['exact'],
+    }
+
 class VideoCamera(object):
     def __init__(self):
         # Using OpenCV to capture from device 0. If you have trouble capturing
@@ -33,25 +60,27 @@ def gen(camera):
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-class Memory():
+class MemoryClass():
     """docstring for Memory"""
-    def __init__(self):
-        self.existing_shm = shared_memory.SharedMemory(name='cameraframe')
+    def __init__(self, memory_name):
+        self.existing_shm = shared_memory.SharedMemory(name=memory_name)
 
     def __del__(self):
         self.existing_shm.close()
 
-def gen2(mem):
+    def get_frame(self):
+        image = np.ndarray((700,700,3), dtype=np.uint8, buffer=self.existing_shm.buf)
+        ret, jpeg = cv2.imencode('.jpg', image)
+        return jpeg.tobytes()
+
+def gen(mem):
     while True:
         time.sleep(0.05)
-        image = np.ndarray((720,1280,3), dtype=np.uint8, buffer=mem.existing_shm.buf)
-        image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
-        ret, jpeg = cv2.imencode('.jpg', image)
-        frame = jpeg.tobytes()
+        frame = mem.get_frame()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-def videoStream():
+def videoStream(memory_name):
     #return StreamingHttpResponse(gen(VideoCamera()), content_type='multipart/x-mixed-replace; boundary=frame')
-    return StreamingHttpResponse(gen2(Memory()), 
+    return StreamingHttpResponse(gen(MemoryClass(memory_name)), 
         content_type='multipart/x-mixed-replace; boundary=frame')

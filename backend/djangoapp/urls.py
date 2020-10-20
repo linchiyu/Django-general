@@ -19,14 +19,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 #from django_private_chat import urls as django_private_chat_urls
 
+admin.site.site_header = "Articfox Admin"
+admin.site.site_title = "Articfox Admin"
+admin.site.index_title = "Articfox Admin"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('admin/defender/', include('defender.urls')), # defender admin
-    path('', include('autenticacao.urls')),
-    path('', include('controleacesso.urls')),
-    path('', include('formulario.urls')),
+    #path('', include('autenticacao.urls')),
+    #path('', include('controleacesso.urls')),
+    #path('', include('formulario.urls')),
     #path('', include('pagamento.urls')),
 	#path('', include('django_private_chat.urls')),
-    path('', include('cctv.urls')),
+    path('', include('cftv.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -7,9 +7,6 @@ dj-rest-auth
 django-allauth
 djangorestframework-simplejwt
 markdown
-django-filter
-django-pagseguro2
-Pillow
-face_recognition
 django-import-export
 django-filter
+opencv-python
