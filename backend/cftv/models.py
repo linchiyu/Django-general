@@ -22,7 +22,7 @@ class Camera(models.Model):
         db_table = 'camera'
 
     name = models.CharField(max_length=40)
-    memory_name = models.CharField(max_length=40, blank=True)
+    memory_name = models.CharField(max_length=40, unique=True, blank=True)
     #momory name can be name with: re.sub('[^A-Za-z0-9]+', '', name+id)
     configuration = models.TextField(max_length=500, 
     	default='''{
