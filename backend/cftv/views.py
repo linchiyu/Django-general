@@ -11,12 +11,9 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
 #mypackages
-from .utils.managers import SharedMemoryManager
+from .utils.memory import MemoryClass
 
 #other
-import cv2
-import numpy as np
-from multiprocessing import shared_memory
 import time
 
 #=======REST FRAMEWORK=========
@@ -37,35 +34,7 @@ class CameraList(generics.ListAPIView):
         #"fkpessoa": ['exact'],
     }
 
-class ImageManager(SharedMemoryManager):
-    pass
-
 #=======VIDEO STREAM=========
-class MemoryClass():
-    """docstring for Memory"""
-    def __init__(self, memory_name):
-        self.camera = Camera.objects.get(memory_name=memory_name)
-        self.server = Server.objects.get(id=self.camera.fkserver.id)
-
-        ImageManager.register('getSharedMemory')
-        self.smm = ImageManager(address=(self.server.ip, self.server.port), 
-            authkey=self.server.authkey)
-        self.smm.connect()
-
-        #self.existing_shm = self.smm.getSharedMemory(name=memory_name)
-        #self.existing_shm = shared_memory.SharedMemory(name=memory_name)
-        #existing_shm = smm.getSharedMemory()
-
-    def __del__(self):
-        self.smm.shutdown()
-
-    def get_frame(self):
-        existing_shm = self.smm.getSharedMemory(name=self.camera.memory_name)
-        image = existing_shm.copy()
-        #image = np.ndarray((700,700,3), dtype=np.uint8, buffer=self.existing_shm.buf)
-        ret, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes()
-
 def gen(mem):
     while True:
         time.sleep(0.05)
