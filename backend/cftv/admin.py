@@ -16,7 +16,7 @@ class CameraAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'active']
     search_fields = ['name', 'active']
     list_filter = ['active']
-    fields = ('name', 'configuration', 'active', 'fkserver')
+    fields = ('name', 'memory_name', 'configuration', 'active', 'fkserver')
     #exclude = ('memory_name',)
 
     def save_model(self, request, obj, form, change):
