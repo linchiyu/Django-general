@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'autenticacao',
     'controleacesso',
     'formulario',
-    'cctv',
+    #'cctv',
     #allauth
     'allauth',
     'allauth.account',

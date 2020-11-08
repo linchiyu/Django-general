@@ -27,6 +27,6 @@ urlpatterns = [
     path('', include('formulario.urls')),
     #path('', include('pagamento.urls')),
 	#path('', include('django_private_chat.urls')),
-    path('', include('cctv.urls')),
+    #path('', include('cctv.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
