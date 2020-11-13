@@ -24,7 +24,8 @@ urlpatterns = [
     #path('admin/defender/', include('defender.urls')), # defender admin
     path('', include('autenticacao.urls')),
     path('', include('controleacesso.urls')),
-    path('', include('formulario.urls')),
+    path('', include('propaganda.urls')),
+    path('', include('pesquisa.urls')),
     #path('', include('pagamento.urls')),
 	#path('', include('django_private_chat.urls')),
     #path('', include('cctv.urls')),
