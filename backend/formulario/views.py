@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from controleacesso.models import Pessoa
 from controleacesso.models import Acesso
-from controleacesso.logic import encodeFace
+from controleacesso.logic import threadProcessarFace
 from rest_framework import serializers
 import datetime
 from datetime import timedelta
@@ -20,12 +20,6 @@ from threading import Thread
 from django.core.files.base import ContentFile
 
 # Create your views here.
-
-#call  t = Thread(target=processarFace, args=(novaPessoa,), daemon=True).start()
-def processarFace(pessoa):
-    encoded = encodeFace(pessoa.foto)
-    pessoa.face_encoded = encoded
-    pessoa.save()
 
 @csrf_protect
 def login(request):
@@ -52,12 +46,12 @@ def cad_face(request):
 			if data['nome'] != "" and data['check'] == True:
 				pes = Pessoa.objects.create_Pessoa(data['nome'], "" ,uploaded_file,False)
 				pes.save()
-				t = Thread(target=processarFace, args=(pes,), daemon=True).start()
+				threadProcessarFace(pes)
 				messages.success(request, "Usuário cadastrado com sucesso!")
 			elif data['nome'] != "" and data['check'] == False and data['codigo'] != "":
 				pes = Pessoa.objects.create_Pessoa(data['nome'], data['codigo'] ,uploaded_file,False)
 				pes.save()
-				t = Thread(target=processarFace, args=(pes,), daemon=True).start()
+				threadProcessarFace(pes)
 				messages.success(request, "Usuário cadastrado com sucesso!")
 			else:
 				messages.error(request, "Algum campo não preenchido!")
@@ -78,10 +72,10 @@ def lista_cad(request):
 		response = HttpResponse(content_type='text/csv')
 		response['Content-Disposition'] = 'attachment; filename="usuarios.csv"'
 		writer = csv.writer(response)
-		writer.writerow(["id","nome","codigo","face_encoded","bloqueado"])
+		writer.writerow(["id","nome","codigo","face_encoded","foto_valida", "bloqueado"])
 		pessoas = Pessoa.objects.all()
 		for p in pessoas:
-			writer.writerow([p.id,p.nome,p.codigo,p.face_encoded,p.bloqueado])
+			writer.writerow([p.id,p.nome,p.codigo,p.face_encoded,p.foto_valida, p.bloqueado])
 		return response
 	else:
 		if request.method == 'POST':
@@ -214,7 +208,7 @@ def alterar(request,idp):
 			pes.foto.save(str(uploaded_file), uploaded_file, save=True)
 		pes.save()
 		if uploaded_file != "":
-			t = Thread(target=processarFace, args=(pes,), daemon=True).start()
+			threadProcessarFace(pes)
 		return HttpResponseRedirect('/usuarioscadastrados')
 		#return HttpResponseRedirect("UsuáriosCadastrados")
 	return render(request, 'formulario/alterar.html',{'pessoa' : pessoa})

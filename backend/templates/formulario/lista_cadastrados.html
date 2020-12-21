@@ -42,6 +42,7 @@
 			<td><strong>Nome</strong></td>
 			<td><strong>Codigo</strong></td>
 			<td><strong>Foto</strong></td>
+			<td>Rosto detectado</td>
 			<td>Acesso</td>
 		</tr>
 		{% for i in pessoas %}
@@ -52,6 +53,7 @@
 				<td>{{ i.codigo }}</td>
 				<td><img src="media/{{ i.foto }}" alt="My image" width=160 height=90 name="img"></td>
 				<input type="hidden" name="id" value="{{ i.id }}">
+				<td>{% if i.foto_valida %} Sim {% else %} Não {% endif %}</td>
 				<td>{% if i.bloqueado %} Bloqueado {% else %} Livre {% endif %}</td>
 				<td><button class="btn btn-info" name="editar" type="submit">Alterar</button></td>
 			</form>

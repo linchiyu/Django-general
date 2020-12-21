@@ -16,19 +16,13 @@ from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 import django_filters
 
-from .logic import encodeFace
+from .logic import threadProcessarFace
 from threading import Thread
 
 from PIL import Image
 from io import BytesIO
 import base64
 
-
-#call  t = Thread(target=processarFace, args=(novaPessoa,), daemon=True).start()
-def processarFace(pessoa):
-    encoded = encodeFace(pessoa.foto)
-    pessoa.face_encoded = encoded
-    pessoa.save()
 
 ######CRUD Pessoa#########
 #create
@@ -48,7 +42,7 @@ class PessoaApiCreate(generics.CreateAPIView):
                 bloqueado=serializer.data['bloqueado'])
             pessoa.foto.save(str(pessoa.id)+'.jpg', image, save=True)
 
-            t = Thread(target=processarFace, args=(pessoa,), daemon=True).start()
+            threadProcessarFace(pessoa)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -65,7 +59,7 @@ class PessoaCreate(generics.CreateAPIView):
         if serializer.is_valid():
             print(type(serializer.validated_data['foto']))
             novaPessoa = serializer.save()
-            t = Thread(target=processarFace, args=(novaPessoa,), daemon=True).start()
+            threadProcessarFace(novaPessoa)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -117,7 +111,7 @@ class PessoaUpdate(generics.UpdateAPIView):
             pessoa.save()
 
             if image_str != None and image_str != '':
-                t = Thread(target=processarFace, args=(pessoa,), daemon=True).start()
+                threadProcessarFace(pessoa)
             
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
