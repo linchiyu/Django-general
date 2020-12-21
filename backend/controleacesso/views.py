@@ -47,8 +47,9 @@ class AcessoApi(generics.ListCreateAPIView):
     serializer_class = AcessoSerializer
 
     def perform_create(self, serializer):
-        print(serializer.validated_data)
+        #print(serializer.validated_data)
         p = serializer.validated_data.get('fkPessoa', None)
+        #print(p)
         if p:
             idade = int((datetime.date.today() - p.data_nascimento).days/365)
             serializer.save(genero=p.genero, idade=idade, fkTotem=self.request.user.totem)

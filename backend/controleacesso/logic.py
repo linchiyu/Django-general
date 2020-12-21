@@ -58,8 +58,7 @@ def encodeFace(path):
         #print(encodedNumpyData)
         return encodedNumpyData
     except:
-        print("exception")
-        raise
+        print("Recognition encoding failed")
         return json.dumps({"face": []})
 
 def getFaceArray(encodedNumpyData):
@@ -77,7 +76,7 @@ def getFaceArray(encodedNumpyData):
 def processarFace(pessoa):
     encoded = encodeFace(pessoa.foto)
     pessoa.face_encoded = encoded
-    if len(encoded) > 300:
+    if len(encoded) > 100:
         pessoa.foto_valida = True
     else:
         pessoa.foto_valida = False
@@ -86,3 +85,7 @@ def processarFace(pessoa):
 def threadProcessarFace(pessoa):
     if settings.LOAD_RECOGNITION:
         t = Thread(target=processarFace, args=(pessoa,), daemon=True).start()
+    else:
+        pessoa.face_encoded = json.dumps({"face": []})
+        pessoa.foto_valida = False
+        pessoa.save()
