@@ -29,8 +29,9 @@ class Propaganda(models.Model):
     nome = models.CharField(max_length=40)
     imagem = models.ImageField()
     genero = models.PositiveSmallIntegerField(choices=GENDER_CHOICES)
-    ativo = models.BooleanField(default=True)
     fkFaixaEtaria = models.ForeignKey(FaixaEtaria, on_delete=models.PROTECT)
+    exclusivo_cliente = models.BooleanField(default=False)
+    ativo = models.BooleanField(default=True)
     fkEmpresa = models.ForeignKey(Empresa, on_delete=models.PROTECT)
 
     created_at = models.DateTimeField(auto_now_add=True)

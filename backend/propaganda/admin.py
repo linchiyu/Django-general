@@ -14,14 +14,15 @@ class FaixaEtariaAdmin(admin.ModelAdmin):
 
     list_display = ('nome', 'idade_minima', 'idade_maxima')
 
-    def has_add_permission(self, request): 
+    '''def has_add_permission(self, request): 
         return False
 
     def has_delete_permission(self, request, obj=None): 
         return False
 
     def has_change_permission(self, request, obj=None): 
-        return False
+        return False'''
+
 
 class PropagandaAdmin(admin.ModelAdmin):
     class Meta:
@@ -46,9 +47,12 @@ class PropagandaAdmin(admin.ModelAdmin):
 
         super().save_model(request, obj, form, change)
 
-
-
-    
+    #mostrar apenas querysets da empresa do usuario
+    def get_queryset(self, request):
+        if request.user.is_superuser:
+            return super().get_queryset(request)
+        else:
+            return super().get_queryset(request).filter(fkEmpresa=request.user.funcionario.fkEmpresa)
 
 admin.site.register(FaixaEtaria, FaixaEtariaAdmin)
 admin.site.register(Propaganda, PropagandaAdmin)

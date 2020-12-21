@@ -31,9 +31,11 @@ class AcessoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Acesso
-        fields = '__all__'
+        #fields = '__all__'
         #fields = ('cnpj', 'razaosocial')
-        #read_only_fields = ( 'cnpj' ,)
+        read_only_fields = ('fkTotem',)
+        exclude = ('created_at', )
+        #depth = 1
 
 
 

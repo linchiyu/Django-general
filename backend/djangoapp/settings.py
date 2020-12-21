@@ -244,8 +244,12 @@ EMAIL_HOST_PASSWORD =
 EMAIL_USE_TLS
 EMAIL_USE_SSL
 '''
+
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'auth'
 
 #django-defener -- log and block unauthorized authentications
 #APPEND_SLASH = False
+
+#RECOGNITION
+LOAD_RECOGNITION = False

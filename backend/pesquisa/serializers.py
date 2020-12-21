@@ -6,3 +6,4 @@ class SatisfacaoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Satisfacao
         fields = '__all__'
+        read_only_fields = ('fkTotem',)

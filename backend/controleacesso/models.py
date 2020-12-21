@@ -17,6 +17,7 @@ GENDER_CHOICES = (
 class Totem(models.Model):
     class Meta:
         db_table = 'totem'
+        verbose_name_plural = 'totens'
     nome = models.CharField(max_length=40)
     descricao = models.TextField(blank=True)
     configuracao = models.TextField(blank=True)
@@ -24,7 +25,11 @@ class Totem(models.Model):
 
     ativo = models.BooleanField(default=True)
 
-    fkEmpresa = models.ForeignKey(Empresa, on_delete=models.PROTECT)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        null=True
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT, related_name='Totem_created_by')
@@ -32,7 +37,7 @@ class Totem(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.PROTECT, related_name='Totem_updated_by')
 
     def __str__(self):
-        return str(self.id)
+        return str(self.id) + " - " + str(self.nome)
 
 class Pessoa(models.Model):
     class Meta:
@@ -55,19 +60,19 @@ class Pessoa(models.Model):
     objects = PessoaManager()
 
     def __str__(self):
-        return str(self.id)
+        return str(self.id) + " - " + str(self.nome)
 
 class Acesso(models.Model):
     class Meta:
         db_table = 'acesso'
     data = models.DateTimeField()
-    fkpessoa = models.ForeignKey(Pessoa, blank=True, null=True, on_delete=models.PROTECT)
+    fkPessoa = models.ForeignKey(Pessoa, blank=True, null=True, on_delete=models.PROTECT)
     genero = models.PositiveSmallIntegerField(blank=True, null=True, choices=GENDER_CHOICES)
     idade = models.PositiveSmallIntegerField(blank=True, null=True)
 
-    fkEmpresa = models.ForeignKey(Totem, on_delete=models.PROTECT)
+    fkTotem = models.ForeignKey(Totem, on_delete=models.PROTECT)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.id)
+        return str(self.data)[0:19]

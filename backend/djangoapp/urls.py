@@ -31,3 +31,8 @@ urlpatterns = [
     #path('', include('cctv.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+admin.site.site_title  = 'Articfox'
+admin.site.site_header = 'Articfox'
+admin.site.index_title = 'Articfox'

@@ -5,4 +5,6 @@ class PropagandaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Propaganda
-        fields = '__all__'
+        fields = ["id", "nome", "imagem", "genero",
+        "exclusivo_cliente", "ativo", "fkFaixaEtaria"]
+        depth = 1
