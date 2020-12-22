@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     #allauth
     'allauth',
     'allauth.account',
-    #'allauth.socialaccount',
+    'allauth.socialaccount',
     #'allauth.socialaccount.providers.google',
     #'allauth.socialaccount.providers.facebook',
     'dj_rest_auth',
@@ -252,4 +252,4 @@ JWT_AUTH_COOKIE = 'auth'
 #APPEND_SLASH = False
 
 #RECOGNITION
-LOAD_RECOGNITION = False
+LOAD_RECOGNITION = True

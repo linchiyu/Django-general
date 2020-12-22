@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 #from django_private_chat import urls as django_private_chat_urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', admin.site.urls),
     #path('admin/defender/', include('defender.urls')), # defender admin
     path('', include('autenticacao.urls')),
     path('', include('controleacesso.urls')),
@@ -33,6 +33,6 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
-admin.site.site_title  = 'Articfox'
-admin.site.site_header = 'Articfox'
-admin.site.index_title = 'Articfox'
+admin.site.site_title  = 'Mx Soluções'
+admin.site.site_header = 'Mx Soluções'
+admin.site.index_title = 'Mx Soluções'
