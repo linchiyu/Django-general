@@ -12,14 +12,23 @@
     "model": "propaganda.faixaEtaria",
     "pk": 2,
     "fields": {
-      "nome": "Até 17",
+      "nome": "Até 12",
       "idade_minima": 0,
-      "idade_maxima": 17
+      "idade_maxima": 12
     }
   },
   {
     "model": "propaganda.faixaEtaria",
     "pk": 3,
+    "fields": {
+      "nome": "13 a 17",
+      "idade_minima": 13,
+      "idade_maxima": 17
+    }
+  },
+  {
+    "model": "propaganda.faixaEtaria",
+    "pk": 4,
     "fields": {
       "nome": "18 a 24",
       "idade_minima": 18,
@@ -28,7 +37,7 @@
   },
   {
     "model": "propaganda.faixaEtaria",
-    "pk": 4,
+    "pk": 5,
     "fields": {
       "nome": "25 a 34",
       "idade_minima": 25,
@@ -37,7 +46,7 @@
   },
   {
     "model": "propaganda.faixaEtaria",
-    "pk": 5,
+    "pk": 6,
     "fields": {
       "nome": "35 a 44",
       "idade_minima": 35,
@@ -46,7 +55,7 @@
   },
   {
     "model": "propaganda.faixaEtaria",
-    "pk": 6,
+    "pk": 7,
     "fields": {
       "nome": "45 a 54",
       "idade_minima": 45,
@@ -55,7 +64,7 @@
   },
   {
     "model": "propaganda.faixaEtaria",
-    "pk": 7,
+    "pk": 8,
     "fields": {
       "nome": "55 a 64",
       "idade_minima": 55,
@@ -64,7 +73,7 @@
   },
   {
     "model": "propaganda.faixaEtaria",
-    "pk": 8,
+    "pk": 9,
     "fields": {
       "nome": "Acima de 64",
       "idade_minima": 65,
