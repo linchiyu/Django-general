@@ -64,8 +64,10 @@ sudo nano /etc/apache2/sites-available/000-default.conf
     WSGIDaemonProcess djangowebserver python-path=/home/pi/Documents/Django-general/backend python-home=/home/pi/Documents/Django-general/venv
     WSGIProcessGroup djangowebserver
     WSGIScriptAlias / /home/pi/Documents/Django-general/backend/djangoapp/wsgi.py
+    WSGIApplicationGroup %{GLOBAL}
 
 
+mkdir ~/Documents/Django-general/backend/media
 chmod g+w ~/Documents/Django-general/backend/db.sqlite3
 chmod g+w ~/Documents/Django-general/backend
 chmod g+w ~/Documents/Django-general

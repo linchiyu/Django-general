@@ -7,7 +7,7 @@ import cv2
 
 
 if settings.DEBUG:
-    static = settings.STATIC_URL
+    static = '.'+settings.STATIC_URL
 else:
     static = settings.STATIC_ROOT
 
@@ -17,7 +17,7 @@ if settings.LOAD_RECOGNITION:
     from keras.preprocessing import image
     from . import Facenet
     face_detector = dlib.get_frontal_face_detector()
-    sp = dlib.shape_predictor('.'+static+"weights/shape_predictor_5_face_landmarks.dat")
+    sp = dlib.shape_predictor(static+"weights/shape_predictor_5_face_landmarks.dat")
     recog = Facenet.FaceNetClass()
     recog.loadModel()
     input_shape = recog.model.layers[0].input_shape

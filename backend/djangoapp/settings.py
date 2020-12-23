@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'jve+71cooc==d_m)jj$3=t(@2&v*yd2dog^xn=k8xvvw5%az@d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -130,9 +130,9 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ekodevdb',
-        'USER': 'devdb',
-        'PASSWORD': 'devdb',
+        'NAME': 'mxsolucoes',
+        'USER': 'mxsolucoesdbadmin',
+        'PASSWORD': 'LXiaK%cqRxr~XmnZr|otOdPI4LQ9zzUCEbi.nV!g',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -178,7 +178,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'static_root/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root/')
 STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'), ]
 
 
@@ -252,4 +252,4 @@ JWT_AUTH_COOKIE = 'auth'
 #APPEND_SLASH = False
 
 #RECOGNITION
-LOAD_RECOGNITION = True
+LOAD_RECOGNITION = False

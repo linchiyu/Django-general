@@ -548,17 +548,17 @@ class FaceNetClass():
 
 
                     if settings.DEBUG:
-                        static = settings.STATIC_URL
+                        static = '.'+settings.STATIC_URL
                     else:
                         static = settings.STATIC_ROOT
                     
-                    if os.path.isfile('.'+static+"weights/facenet_weights.h5") != True:
+                    if os.path.isfile(static+"weights/facenet_weights.h5") != True:
                         print("facenet_weights.h5 will be downloaded...")
                         
-                        output = '.'+static+"weights/facenet_weights.h5"
+                        output = static+"weights/facenet_weights.h5"
                         gdown.download(url, output, quiet=False)
 
-                    self.model.load_weights('.'+static+"weights/facenet_weights.h5")
+                    self.model.load_weights(static+"weights/facenet_weights.h5")
 
                 except Exception as e:
                     raise
@@ -569,9 +569,8 @@ class FaceNetClass():
                 y = self.model.predict(x)
         return y
 
-
-        
-
+  
+'''
 def loadModel(url = 'https://drive.google.com/uc?id=1971Xk5RwedbudGgTIrGAL4F7Aifu7id1'):
     model = InceptionResNetV2()
     
@@ -594,4 +593,4 @@ def loadModel(url = 'https://drive.google.com/uc?id=1971Xk5RwedbudGgTIrGAL4F7Aif
     
     #-----------------------------------
     
-    return model
+    return model'''
