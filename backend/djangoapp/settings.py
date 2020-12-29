@@ -248,4 +248,4 @@ JWT_AUTH_COOKIE = 'auth'
 #django-defener -- log and block unauthorized authentications
 #APPEND_SLASH = False
 
-LOAD_RECOGNITION = False
+LOAD_RECOGNITION = True

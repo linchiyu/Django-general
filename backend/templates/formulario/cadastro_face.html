@@ -8,13 +8,12 @@
 		{% csrf_token %}
 		<label>Nome</label>
 		<input class="form-control" type="text" name="name"><br>
-		<label style="margin-right: 5px;">Codigo (RFID)</label><span class="badge badge-secondary"
+		<div hidden="true"><label style="margin-right: 5px;">Codigo (RFID)</label><span class="badge badge-secondary"
 			style="font-size:110% !important;"><input style="margin: 0 5px;" type="checkbox" id="checkbox" name="scales"
 				checked>Gerar código automatico
 		</span>
-
-		<input class="form-control" type="text" name="code" id="code" disabled><br><br>
-		<label>Imagem</label><br>
+		<input class="form-control" type="text" name="code" id="code" disabled><br><br></div>
+		<label>Foto</label><br>
 		<input class="" type="file" name="img"><br><br>
 		{% for message in messages %}
 		{% if message.tags == 'success' %}

@@ -68,7 +68,7 @@ class PessoaCreate(generics.CreateAPIView):
 class PessoaFace(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
 
-    queryset = Pessoa.objects.filter(bloqueado=False).exclude(face_encoded__isnull=True).values('id', 'nome', 'codigo', 'face_encoded')
+    queryset = Pessoa.objects.filter(bloqueado=False, foto_valida=True).exclude(face_encoded__isnull=True).values('id', 'nome', 'codigo', 'face_encoded')
     serializer_class = PessoaFaceSerializer
 
 
@@ -139,7 +139,7 @@ class AcessoList(generics.ListAPIView):
     queryset = Acesso.objects.all()
     serializer_class = AcessoSerializer
     filterset_fields = {
-        "fkpessoa": ['exact'],
+        "fkPessoa": ['exact'],
         "data": ['gte', 'lte'],
         "tipoAcesso": ['exact'],
     }

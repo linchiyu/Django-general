@@ -40,7 +40,7 @@
 	<table class="table table-borderless">
 		<tr>
 			<td><strong>Nome</strong></td>
-			<td><strong>Codigo</strong></td>
+			<td hidden="true"><strong>Codigo</strong></td>
 			<td><strong>Foto</strong></td>
 			<td>Rosto detectado</td>
 			<td>Acesso</td>
@@ -50,10 +50,10 @@
 			<form method="POST">
 				{% csrf_token %}
 				<td>{{ i.nome }}</td>
-				<td>{{ i.codigo }}</td>
+				<td hidden="true">{{ i.codigo }}</td>
 				<td><img src="media/{{ i.foto }}" alt="My image" width=160 height=90 name="img"></td>
 				<input type="hidden" name="id" value="{{ i.id }}">
-				<td>{% if i.foto_valida %} Sim {% else %} Não {% endif %}</td>
+				<td>{% if i.foto_valida %} Sim {% else %} <strong>Não<strong> {% endif %}</td>
 				<td>{% if i.bloqueado %} Bloqueado {% else %} Livre {% endif %}</td>
 				<td><button class="btn btn-info" name="editar" type="submit">Alterar</button></td>
 			</form>

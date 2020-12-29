@@ -45,7 +45,7 @@ class AcessoSerializer(serializers.ModelSerializer):
         idpessoa = self.request.query_params.get('idpessoa', None)
         if idpessoa is not None:
             print(idpessoa)
-            queryset = queryset.filter(acesso__fkpessoa=idpessoa)
+            queryset = queryset.filter(acesso__fkPessoa=idpessoa)
         if dataIni is not None:
             queryset = queryset.filter(acesso__data__range=[dataIni, dataFim])
         return queryset'''
