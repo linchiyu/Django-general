@@ -65,6 +65,32 @@
 	</tr>
 	{% endfor %}
 </table>
+	<div class="pagination">
+    <ul class="pagination">
+        {% if acessos.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">&laquo; Primeira</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ acessos.previous_page_number }}">Anterior</a>
+        </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+        <span class="page-link">
+            Página {{ acessos.number }} de {{ acessos.paginator.num_pages }}.
+        </span>
+
+        {% if acessos.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ acessos.next_page_number }}">Próxima</a>
+		</li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ acessos.paginator.num_pages }}">Última &raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
+	</div>
 </div>
 
 {% endblock %}

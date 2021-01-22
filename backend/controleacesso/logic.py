@@ -1,9 +1,7 @@
-import numpy as np
 import json
 from json import JSONEncoder
 from threading import Thread
 from django.conf import settings
-import cv2
 
 
 if settings.DEBUG:
@@ -13,6 +11,7 @@ else:
 
 #face recognition modules
 if settings.LOAD_RECOGNITION:
+    import cv2
     import dlib
     from keras.preprocessing import image
     from . import Facenet
@@ -28,11 +27,14 @@ if settings.LOAD_RECOGNITION:
 
 class NumpyArrayEncoder(JSONEncoder):
     def default(self, obj):
+        import numpy as np
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         return JSONEncoder.default(self, obj)
 
 def encodeFace(path):
+    import cv2
+    import numpy as np
     #transforma imagem do PATH para um json com {"face": [128-D face points array]}
     try:
         img = cv2.imread(settings.MEDIA_ROOT+'/'+str(path))
@@ -62,6 +64,7 @@ def encodeFace(path):
         return json.dumps({"face": []})
 
 def getFaceArray(encodedNumpyData):
+    import numpy as np
     #converte o json em array numpy
     # Deserialization
     #print("Decode JSON serialized NumPy array")
@@ -80,6 +83,7 @@ def processarFace(pessoa):
         pessoa.foto_valida = True
     else:
         pessoa.foto_valida = False
+    pessoa.foto_processada = True
     pessoa.save()
 
 def threadProcessarFace(pessoa):
@@ -88,4 +92,5 @@ def threadProcessarFace(pessoa):
     else:
         pessoa.face_encoded = json.dumps({"face": []})
         pessoa.foto_valida = False
+        pessoa.foto_processada = False
         pessoa.save()

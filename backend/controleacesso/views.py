@@ -8,6 +8,8 @@ from .models import Acesso
 from .serializers import PessoaSerializer
 from .serializers import PessoaFaceSerializer
 from .serializers import PessoaApiFaceSerializer
+from .serializers import PessoaListProcessSerializer
+from .serializers import PessoaUpdateProcessSerializer
 from .serializers import AcessoSerializer
 
 from rest_framework.permissions import IsAuthenticated
@@ -68,7 +70,8 @@ class PessoaCreate(generics.CreateAPIView):
 class PessoaFace(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
 
-    queryset = Pessoa.objects.filter(bloqueado=False, foto_valida=True).exclude(face_encoded__isnull=True).values('id', 'nome', 'codigo', 'face_encoded')
+    queryset = Pessoa.objects.filter(bloqueado=False, foto_valida=True).exclude(
+        face_encoded__isnull=True).values('id', 'nome', 'codigo', 'face_encoded')
     serializer_class = PessoaFaceSerializer
 
 
@@ -85,6 +88,13 @@ class PessoaList(generics.ListAPIView):
         "codigo": ['exact'],
         "bloqueado": ['exact'],
     }
+
+class PessoaProcessList(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    queryset = Pessoa.objects.filter(bloqueado=False, foto_processada=False)
+    serializer_class = PessoaListProcessSerializer
+
 
 #update
 class PessoaUpdate(generics.UpdateAPIView):
@@ -112,6 +122,26 @@ class PessoaUpdate(generics.UpdateAPIView):
 
             if image_str != None and image_str != '':
                 threadProcessarFace(pessoa)
+            
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PessoaProcessUpdate(generics.UpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    queryset = Pessoa.objects.all()
+    serializer_class = PessoaUpdateProcessSerializer
+
+    def put(self, request, pk):
+        serializer = PessoaUpdateProcessSerializer(data=request.data)
+        if serializer.is_valid():
+
+            pessoa = Pessoa.objects.get(id=pk)
+            pessoa.face_encoded = serializer.data['face_encoded']
+            pessoa.foto_valida = serializer.data['foto_valida']
+            pessoa.foto_processada = True
+
+            pessoa.save()
             
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

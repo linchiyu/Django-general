@@ -12,6 +12,9 @@ urlpatterns = [
     path(baseurl+'/pessoa/update/<int:pk>', views.PessoaUpdate.as_view(), name='upessoa'),
     path(baseurl+'/pessoa/<int:pk>', views.PessoaRetrieve.as_view(), name='rpessoa'),
 
+    path(baseurl+'/pessoa/process', views.PessoaProcessList.as_view(), name='procpessoa'),
+    path(baseurl+'/pessoa/process/<int:pk>', views.PessoaProcessUpdate.as_view(), name='upprocpessoa'),
+
     path(baseurl+'/acesso/new', views.AcessoCreate.as_view(), name='cacesso'),
     path(baseurl+'/acesso/list', views.AcessoList.as_view(), name='lacesso'),
     #re_path(r'^api/acesso/list/(?P<idpessoa>\w+)/$', views.AcessoList.as_view(), name='lacesso'),

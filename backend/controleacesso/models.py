@@ -1,5 +1,5 @@
 from django.db import models
-
+from PIL import Image
 # Create your models here.
 
 class PessoaManager(models.Manager):
@@ -15,12 +15,21 @@ class Pessoa(models.Model):
     foto = models.ImageField()
     face_encoded = models.CharField(max_length=3500, blank=True, null=True)
     foto_valida = models.BooleanField(default=False)
+    foto_processada = models.BooleanField(default=False)
     bloqueado = models.BooleanField(default=False)
 
     objects = PessoaManager()
 
     def __str__(self):
         return str(self.id)
+
+    def save(self, *args, **kwargs):
+        im = Image.open(self.foto)
+        #set maxsize of the image
+        im.thumbnail( (700,700) )
+        im.save(self.foto.path)
+
+        super(Pessoa,self).save()
 
 class Acesso(models.Model):
     class Meta:

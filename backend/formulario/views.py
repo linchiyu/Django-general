@@ -18,7 +18,7 @@ import csv
 from django.http import HttpResponse
 from threading import Thread
 from django.core.files.base import ContentFile
-
+from django.core.paginator import Paginator
 # Create your views here.
 
 @csrf_protect
@@ -65,6 +65,8 @@ def lista_cad(request):
 	data = {}
 	data['id'] = request.POST.get("id")
 	data['pessoas'] = request.POST.get("pessoas")
+	page_number = request.GET.get('page', 1)
+	obj_per_page = 25
 	if data['id']:
 		return redirect("formulario_alterar", data['id'])
 		#return render(request, 'formulario/alterar.html', {'id' : data['id']})
@@ -83,21 +85,29 @@ def lista_cad(request):
 			if data['pesquisa'] == "":
 				messages.error(request, "Campos da pesquisa não preenchidos!")
 				pessoas = Pessoa.objects.all()
+				paginator = Paginator(pessoas, obj_per_page)
+				pessoas = paginator.get_page(page_number)
 				return render(request, 'formulario/lista_cadastrados.html', {'pessoas' : pessoas})
 			pessoas = Pessoa.objects.filter(nome__icontains=data['pesquisa'])
 			if len(pessoas) == 0:
 				pessoas = Pessoa.objects.all()
+				paginator = Paginator(pessoas, obj_per_page)
+				pessoas = paginator.get_page(page_number)
 				messages.error(request, "Nenhum resultado encontrado!")
 			return render(request, 'formulario/lista_cadastrados.html', {'pessoas' : pessoas})
 		pessoas = Pessoa.objects.all()
+		paginator = Paginator(pessoas, obj_per_page)
+		pessoas = paginator.get_page(page_number)
 		return render(request, 'formulario/lista_cadastrados.html', {'pessoas' : pessoas})
 
 @login_required(login_url='/')
 def lista_ace(request):
 	data = {}
 	data['acessos'] = request.POST.get("acessos")
-	acessos = Acesso.objects.select_related('fkPessoa').order_by('id').reverse()
+	page_number = request.GET.get('page', 1)
+	obj_per_page = 100
 	if data['acessos']:
+		acessos = Acesso.objects.select_related('fkPessoa').order_by('id').reverse()
 		response = HttpResponse(content_type='text/csv')
 		response['Content-Disposition'] = 'attachment; filename="entradas.csv"'
 		writer = csv.writer(response)
@@ -111,8 +121,11 @@ def lista_ace(request):
 			data['dataIni'] = request.POST.get("dataI")
 			data['dataFim'] = request.POST.get("dataF")
 			if data['dataIni'] == "" and data['dataFim'] == "" and data['pesquisa'] == "":
+				acessos = Acesso.objects.select_related('fkPessoa').order_by('id').reverse()
+				paginator = Paginator(acessos, obj_per_page)
+				acessos = paginator.get_page(page_number)
 				messages.error(request, "Campos da pesquisa não preenchidos!")
-				return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos[:10001]})
+				return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
 			if data['pesquisa'] == "":
 				if data['dataFim'] != "":
 					data['dataFim'] = datetime.datetime.strptime(data['dataFim'], '%Y-%m-%d')
@@ -127,7 +140,9 @@ def lista_ace(request):
 				if len(acessos) == 0:
 					acessos = Acesso.objects.select_related('fkPessoa').order_by('id').reverse()
 					messages.error(request, "Nenhum resultado encontrado!")
-				return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos[:10001]})
+				paginator = Paginator(acessos, obj_per_page)
+				acessos = paginator.get_page(page_number)
+				return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
 			else:
 				pessoas = Pessoa.objects.filter(nome__icontains=data['pesquisa'])
 				if len(pessoas) == 0:
@@ -146,8 +161,13 @@ def lista_ace(request):
 					if len(acessos) == 0:
 						acessos = Acesso.objects.select_related('fkPessoa').order_by('id').reverse()
 						messages.error(request, "Nenhum resultado encontrado!")
-					return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos[:10001]})
-	return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos[:10001]})
+					paginator = Paginator(acessos, obj_per_page)
+					acessos = paginator.get_page(page_number)
+					return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
+	acessos = Acesso.objects.select_related('fkPessoa').order_by('id').reverse()
+	paginator = Paginator(acessos, obj_per_page)
+	acessos = paginator.get_page(page_number)
+	return render(request, 'formulario/lista_acessos.html', {'acessos' : acessos})
 
 @login_required(login_url='/')
 def config(request):

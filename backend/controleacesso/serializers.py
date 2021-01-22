@@ -14,6 +14,18 @@ class PessoaFaceSerializer(serializers.ModelSerializer):
         model = Pessoa
         fields = ('id', 'nome', 'codigo', 'face_encoded')
 
+class PessoaListProcessSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Pessoa
+        fields = ('id', 'foto', 'foto_processada')
+
+class PessoaUpdateProcessSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Pessoa
+        fields = ('id', 'face_encoded', 'foto_valida')
+
 
 class PessoaApiFaceSerializer(serializers.ModelSerializer):
 
