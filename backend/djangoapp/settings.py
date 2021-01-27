@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     #'allauth.socialaccount.providers.facebook',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+    'django_cleanup.apps.CleanupConfig',
 
     #pagamento
     #'pagseguro'

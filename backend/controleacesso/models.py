@@ -29,6 +29,8 @@ class Pessoa(models.Model):
         im.thumbnail( (700,700) )
         im.save(self.foto.path)
 
+        im.close()
+
         super(Pessoa,self).save()
 
 class Acesso(models.Model):
