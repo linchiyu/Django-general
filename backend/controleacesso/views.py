@@ -37,31 +37,16 @@ class PessoaApiCreate(generics.CreateAPIView):
     def post(self, request):
         serializer = PessoaApiFaceSerializer(data=request.data)
         if serializer.is_valid():
-            image = ContentFile(base64.b64decode(serializer.data['imageBase64']))
+            #image = ContentFile(base64.b64decode(serializer.data['imageBase64']))
 
-            pessoa = Pessoa.objects.create(nome=serializer.data['nome'], 
+            '''pessoa = Pessoa(nome=serializer.data['nome'], 
                 codigo=serializer.data['codigo'],
                 bloqueado=serializer.data['bloqueado'])
-            pessoa.foto.save(str(pessoa.id)+'.jpg', image, save=True)
+            pessoa.foto.save('api.jpg', image, save=True)
+            pessoa.save()'''
+            serializer.save()
 
             threadProcessarFace(pessoa)
-            
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#deprecated
-class PessoaCreate(generics.CreateAPIView):
-    permission_classes = (IsAuthenticated,)
-
-    queryset = Pessoa.objects.all()
-    serializer_class = PessoaSerializer
-
-    def post(self, request):
-        serializer = PessoaSerializer(data=request.data)
-        if serializer.is_valid():
-            print(type(serializer.validated_data['foto']))
-            novaPessoa = serializer.save()
-            threadProcessarFace(novaPessoa)
             
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

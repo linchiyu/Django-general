@@ -12,3 +12,4 @@ django-pagseguro2
 Pillow
 django-import-export
 django-filter
+django-cleanup

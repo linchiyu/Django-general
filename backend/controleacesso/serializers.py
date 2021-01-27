@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Pessoa
 from .models import Acesso
+#from drf_extra_fields.fields import Base64ImageField
 
 class PessoaSerializer(serializers.ModelSerializer):
 
@@ -29,13 +30,20 @@ class PessoaUpdateProcessSerializer(serializers.ModelSerializer):
 
 class PessoaApiFaceSerializer(serializers.ModelSerializer):
 
-    imageBase64 = serializers.CharField(required=False)
+    #imageBase64 = Base64ImageField(required=False)
 
     class Meta:
         model = Pessoa
 
-        fields = ('id', 'nome', 'imageBase64', 'bloqueado', 'codigo')
+        fields = ('id', 'nome', 'foto', 'bloqueado', 'codigo')
         #fields = '__all__'
+
+    def create(self, validated_data):
+        #image = validated_data.pop('imageBase64')
+        nome = validated_data.pop('nome')
+        bloqueado = validated_data.pop('bloqueado')
+        codigo = validated_data.pop('codigo')
+        return Pessoa.objects.create(nome=nome, bloqueado=bloqueado, codigo=codigo,foto=image)
 
 
 class AcessoSerializer(serializers.ModelSerializer):

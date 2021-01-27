@@ -5,11 +5,10 @@ from rest_framework.authtoken.views import obtain_auth_token
 baseurl = 'api'
 
 urlpatterns = [
-    path(baseurl+'/pessoa/new', views.PessoaCreate.as_view(), name='cpessoa'),
-    path(baseurl+'/pessoa/create', views.PessoaApiCreate.as_view(), name='capipessoa'),
+    #path(baseurl+'/pessoa/create', views.PessoaApiCreate.as_view(), name='capipessoa'),
     path(baseurl+'/pessoa/list', views.PessoaList.as_view(), name='lpessoa'),
     path(baseurl+'/pessoa/facelist', views.PessoaFace.as_view(), name='flpessoa'),
-    path(baseurl+'/pessoa/update/<int:pk>', views.PessoaUpdate.as_view(), name='upessoa'),
+    #path(baseurl+'/pessoa/update/<int:pk>', views.PessoaUpdate.as_view(), name='upessoa'),
     path(baseurl+'/pessoa/<int:pk>', views.PessoaRetrieve.as_view(), name='rpessoa'),
 
     path(baseurl+'/pessoa/process', views.PessoaProcessList.as_view(), name='procpessoa'),
