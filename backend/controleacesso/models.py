@@ -24,12 +24,15 @@ class Pessoa(models.Model):
         return str(self.id)
 
     def save(self, *args, **kwargs):
-        im = Image.open(self.foto)
-        #set maxsize of the image
-        im.thumbnail( (700,700) )
-        im.save(self.foto.path)
+        try:
+            im = Image.open(self.foto)
+            #set maxsize of the image
+            im.thumbnail( (700,700) )
+            im.save(self.foto.path)
 
-        im.close()
+            im.close()
+        except:
+            None
 
         super(Pessoa,self).save()
 
