@@ -40,7 +40,8 @@ class Acesso(models.Model):
     class Meta:
         db_table = 'acesso'
     data = models.DateTimeField()
-    tipoAcesso = models.CharField(max_length=10) #0 = entrada 1 = saida
+    tipoAcesso = models.CharField(max_length=10) 
+    #0 = nao definido 1 = liberado 2 = temp irregular
     fkPessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT)
 
     def __str__(self):

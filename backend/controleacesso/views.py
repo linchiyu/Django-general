@@ -8,6 +8,8 @@ from .models import Acesso
 from .serializers import PessoaSerializer
 from .serializers import PessoaFaceSerializer
 from .serializers import PessoaApiFaceSerializer
+from .serializers import PessoaApiFaceB64Serializer
+from .serializers import PessoaApiPartialUpdateB64Serializer
 from .serializers import PessoaListProcessSerializer
 from .serializers import PessoaUpdateProcessSerializer
 from .serializers import AcessoSerializer
@@ -44,7 +46,30 @@ class PessoaApiCreate(generics.CreateAPIView):
                 bloqueado=serializer.data['bloqueado'])
             pessoa.foto.save('api.jpg', image, save=True)
             pessoa.save()'''
-            serializer.save()
+            pessoa = serializer.save()
+
+            threadProcessarFace(pessoa)
+            
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PessoaApiCreateB64(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    queryset = Pessoa.objects.all()
+    serializer_class = PessoaApiFaceB64Serializer
+
+    def post(self, request):
+        serializer = PessoaApiFaceB64Serializer(data=request.data)
+        if serializer.is_valid():
+            #image = ContentFile(base64.b64decode(serializer.data['imageBase64']))
+
+            '''pessoa = Pessoa(nome=serializer.data['nome'], 
+                codigo=serializer.data['codigo'],
+                bloqueado=serializer.data['bloqueado'])
+            pessoa.foto.save('api.jpg', image, save=True)
+            pessoa.save()'''
+            pessoa = serializer.save()
 
             threadProcessarFace(pessoa)
             
@@ -86,30 +111,43 @@ class PessoaUpdate(generics.UpdateAPIView):
     permission_classes = (IsAuthenticated,)
 
     queryset = Pessoa.objects.all()
-    serializer_class = PessoaApiFaceSerializer
+    serializer_class = PessoaSerializer
 
     def put(self, request, pk):
-        serializer = PessoaApiFaceSerializer(data=request.data)
+        pessoa = Pessoa.objects.get(id=pk)
+        serializer = PessoaSerializer(pessoa, data=request.data, partial=True)
+        image_str = serializer.initial_data.get('foto', None)
         if serializer.is_valid():
-
-            pessoa = Pessoa.objects.get(id=pk)
-            pessoa.nome = serializer.data['nome']
-            pessoa.codigo = serializer.data['codigo']
-            pessoa.bloqueado = serializer.data['bloqueado']
-
-            image_str = serializer.data.get('imageBase64', None)
-
-            if image_str != None and image_str != '':
-                image = ContentFile(base64.b64decode(image_str))
-                pessoa.foto.save(str(pessoa.id)+'.jpg', image, save=True)
-
-            pessoa.save()
+            
+            serializer.save()
 
             if image_str != None and image_str != '':
                 threadProcessarFace(pessoa)
             
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PessoaUpdateB64(generics.UpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    queryset = Pessoa.objects.all()
+    serializer_class = PessoaApiPartialUpdateB64Serializer
+
+    def put(self, request, pk):
+        pessoa = Pessoa.objects.get(id=pk)
+        serializer = PessoaApiPartialUpdateB64Serializer(pessoa, data=request.data, partial=True)
+        image_str = serializer.initial_data.get('fotoBase64', None)
+        if serializer.is_valid():
+            
+            serializer.save()
+
+            if image_str != None and image_str != '':
+                threadProcessarFace(pessoa)
+            
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class PessoaProcessUpdate(generics.UpdateAPIView):
     permission_classes = (IsAuthenticated,)

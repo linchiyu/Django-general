@@ -8,13 +8,13 @@
 		{% csrf_token %}
 		{% for i in pessoa %}
 		<label>Nome</label>
-		<input type="text" name="name" value="{{i.nome}}"><br><br>
-		<label>Codigo</label>
-		<input type="text" name="code" value="{{i.codigo}}"><br><br>
-		<label>Imagem</label>
-		<input type="file" name="img"></input><br><br>
+		<input class="form-control" type="text" name="name" value="{{i.nome}}"><br><br>
+		<label>Codigo RFID</label>
+		<input class="form-control" type="text" name="code" value="{{i.codigo}}"><br><br>
+		<label>Foto</label>
+		<input class="" type="file" name="img"></input><br><br>
 		<label>Bloquear usuário</label>
-		<input type="checkbox" id="checkbox" name="checkbox" {% if i.bloqueado %} checked{% endif %}><br><br>
+		<input input style="margin: 0 5px;" type="checkbox" id="checkbox" name="checkbox" {% if i.bloqueado %} checked{% endif %}><br><br>
 		{% endfor %}
 		{% for message in messages %}
 		<div class="alert alert-danger">
@@ -23,7 +23,8 @@
 		<br>
 		{% endfor %}
 		<input type="hidden" name="id" value="{{ id }}">
-		<button type="submit">Salvar alterações</button><br><br>
+		<button class="btn btn-primary" type="submit">Salvar alterações</button><br><br>
 	</form>
+
 </div>
 {% endblock %}
