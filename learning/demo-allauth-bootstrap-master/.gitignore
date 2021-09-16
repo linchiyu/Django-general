@@ -1,0 +1,12 @@
+*.pyc
+*.tmp
+*.swp
+*.db
+*.sqlite3
+*/settings_*.py
+*.iml
+.idea
+DEL
+*.sql
+*.bak
+mypy*
